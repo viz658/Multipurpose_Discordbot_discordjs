@@ -36,7 +36,7 @@ module.exports = {
       .fetch(user.id)
       .catch(console.error);
 
-    if (!reason) reason = "No reason provided.";
+    if (!reason) reason = "";
 
     if (interaction.member.id === user.id) {
       return await interaction.reply({
@@ -46,7 +46,7 @@ module.exports = {
     }
     await user
       .send({
-        content: `You have been banned from ${interaction.guild.name} for ${reason}`,
+        content: `You have been banned from ${interaction.guild.name} ${reason ? " for " : ""} ${reason}`,
       })
       .catch(console.log("User's DM's are off."));
 

@@ -33,12 +33,12 @@ module.exports = {
       .fetch(user.id)
       .catch(console.error);
 
-    if (!reason) reason = "No reason provided.";
+    if (!reason) reason = "";
     if (!time) time = null;
 
     await user
       .send({
-        content: `You have been put in timeout in ${interaction.guild.name} for ${reason} for ${time} minutes`,
+        content: `You have been put in timeout in ${interaction.guild.name} ${reason ? " for " : ""} ${reason} for ${time} minutes`,
       })
       .catch(() => console.log("User's DM's are off."));
 

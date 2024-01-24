@@ -24,11 +24,11 @@ module.exports = {
       .fetch(user.id)
       .catch(console.error);
 
-    if (!reason) reason = "No reason provided.";
+    if (!reason) reason = "";
 
     await user
       .send({
-        content: `You have been kicked from ${interaction.guild.name} for ${reason}`,
+        content: `You have been kicked from ${interaction.guild.name} ${reason ? " for " : ""} ${reason}`,
       })
       .catch(() => console.log("User's DM's are off."));
 
