@@ -9,7 +9,7 @@ module.exports = {
     .setName(`permissions`)
     .setDescription("permissions test")
     .setDefaultMemberPermissions(0),
-    category: "test",
+  category: "test",
   async execute(interaction, client) {
     const { roles } = interaction.member;
     const role = await interaction.guild.roles

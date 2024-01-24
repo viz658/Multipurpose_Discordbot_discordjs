@@ -10,7 +10,7 @@ module.exports = {
     .setName("button")
     .setDescription("Button test")
     .setDefaultMemberPermissions(0),
-    category: "community",
+  category: "test",
   async execute(interaction, client) {
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
@@ -19,7 +19,7 @@ module.exports = {
         .setStyle(ButtonStyle.Primary)
     );
     await interaction.reply({
-      components: [row]
+      components: [row],
     });
   },
 };

@@ -12,7 +12,7 @@ module.exports = {
         .setRequired(true)
     )
     .setDefaultMemberPermissions(0),
-    category: "test",
+  category: "test",
   async autocomplete(interaction, client) {
     const focusedValue = interaction.options.getFocused();
     const choices = ["red", "blue", "yellow", "green", "purple", "pink"];

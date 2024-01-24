@@ -11,7 +11,7 @@ module.exports = {
     .setName("modal")
     .setDescription("Modal test")
     .setDefaultMemberPermissions(0),
-  category: "community",
+  category: "test",
   async execute(interaction, client) {
     const modal = new ModalBuilder().setTitle("Modal").setCustomId("fav-color");
 

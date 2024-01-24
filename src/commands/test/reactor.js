@@ -5,7 +5,7 @@ module.exports = {
     .setName("reactor")
     .setDescription("Returns reactions")
     .setDefaultMemberPermissions(0),
-    category: "test",
+  category: "test",
   async execute(interaction, client) {
     const message = await interaction.reply({
       content: `React to this message!`,

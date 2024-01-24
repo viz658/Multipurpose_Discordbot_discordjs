@@ -10,7 +10,7 @@ module.exports = {
     .setName("menu")
     .setDescription("Menu test")
     .setDefaultMemberPermissions(0),
-  category: "community",
+  category: "test",
   async execute(interaction, client) {
     const row = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
