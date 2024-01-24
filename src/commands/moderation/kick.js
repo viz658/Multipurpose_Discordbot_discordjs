@@ -1,4 +1,8 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+  EmbedBuilder,
+} = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -26,14 +30,21 @@ module.exports = {
 
     await user
       .send({
-        content: `You have been kicked from ${interaction.guild.name} ${reason ? " for " : ""} ${reason}`,
+        content: `You have been kicked from ${interaction.guild.name} ${
+          reason ? " for " : ""
+        } ${reason}`,
       })
       .catch(() => console.log("User's DM's are off."));
 
     await member.kick(reason).catch(console.error);
-
+    const embed = new EmbedBuilder()
+      .setColor("Green")
+      .setDescription(
+        `✅ ${user.tag} has been kicked 🔨${reason ? " for " : ""} ${reason}`
+      )
+      .setTimestamp(Date.now());
     await interaction.reply({
-      content: `${user.tag} has been kicked for ${reason}`,
+      embeds: [embed],
     });
   },
 };

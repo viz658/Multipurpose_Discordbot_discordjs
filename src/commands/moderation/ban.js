@@ -44,18 +44,23 @@ module.exports = {
     }
     await user
       .send({
-        content: `You have been banned from ${interaction.guild.name} ${reason ? " for " : ""} ${reason}`,
+        content: `You have been banned from ${interaction.guild.name} ${
+          reason ? " for " : ""
+        } ${reason}`,
       })
       .catch(console.log("User's DM's are off."));
 
-    await member
-      .ban({ deleteMessageSeconds: time * 60 * 60 * 24, reason: reason })
+    await member.ban({
+      deleteMessageSeconds: time * 60 * 60 * 24,
+      reason: reason,
+    });
 
     const embed = new EmbedBuilder()
       .setColor("Blue")
       .setDescription(
         `✅ ${user.tag} has been banned 🔨${reason ? " for " : ""} ${reason}`
-      );
+      )
+      .setTimestamp(Date.now());
     await interaction.reply({
       embeds: [embed],
     });

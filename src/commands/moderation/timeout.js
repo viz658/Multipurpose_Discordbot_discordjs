@@ -1,4 +1,8 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+  EmbedBuilder,
+} = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -37,14 +41,25 @@ module.exports = {
 
     await user
       .send({
-        content: `You have been put in timeout in ${interaction.guild.name} ${reason ? " for " : ""} ${reason} for ${time} minutes`,
+        content: `You have been put in timeout in ${interaction.guild.name} ${
+          reason ? " for " : ""
+        } ${reason} for ${time} minutes`,
       })
       .catch(() => console.log("User's DM's are off."));
 
-    await member.timeout(time == null ? null : time * 60 * 1000, reason).catch(console.error);
-
+    await member
+      .timeout(time == null ? null : time * 60 * 1000, reason)
+      .catch(console.error);
+    const embed = new EmbedBuilder()
+      .setColor("Green")
+      .setDescription(
+        `✅ ${user.tag} has been put in timeout ⌛${
+          reason ? " for " : ""
+        } ${reason} for ${time} minutes`
+      )
+      .setTimestamp(Date.now());
     await interaction.reply({
-      content: `${user.tag} has been put in timeout for ${reason} ${reason ? " for " : ""} ${time} minutes`,
+      embeds: [embed],
     });
   },
 };
