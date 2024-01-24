@@ -19,12 +19,10 @@ module.exports = {
   category: "moderation",
   async execute(interaction, client) {
     const user = interaction.options.getUser("target");
-    let reason = interaction.options.getString("reason");
+    let reason = interaction.options.getString("reason") || "";
     const member = await interaction.guild.members
       .fetch(user.id)
       .catch(console.error);
-
-    if (!reason) reason = "";
 
     await user
       .send({

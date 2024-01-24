@@ -27,13 +27,12 @@ module.exports = {
   category: "moderation",
   async execute(interaction, client) {
     const user = interaction.options.getUser("target");
-    let reason = interaction.options.getString("reason");
+    let reason = interaction.options.getString("reason") || "";
     const time = interaction.options.getInteger("time");
     const member = await interaction.guild.members
       .fetch(user.id)
       .catch(console.error);
 
-    if (!reason) reason = "";
     if (!time) time = null;
 
     await user
@@ -45,7 +44,7 @@ module.exports = {
     await member.timeout(time == null ? null : time * 60 * 1000, reason).catch(console.error);
 
     await interaction.reply({
-      content: `${user.tag} has been put in timeout for ${reason} for ${time} minutes`,
+      content: `${user.tag} has been put in timeout for ${reason} ${reason ? " for " : ""} ${time} minutes`,
     });
   },
 };

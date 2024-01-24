@@ -41,19 +41,5 @@ module.exports = {
     } catch (err) {
       console.error(err);
     }
-    // warningSchema.findOne(
-    //   { GuildID: interaction.guild.id, UserID: target.id, Usertag: target.tag },
-    //   async (err, data) => {
-    //     if (err) throw err;
-    //     if (data) {
-    //       await warningSchema.findOneAndDelete(
-    //         { GuildID: interaction.guild.id, UserID: target.id, Usertag: target.tag },
-    //       );
-    //       return await interaction.reply({ embeds: [embed] });
-    //     } else {
-    //         return await interaction.reply({ embeds: [noWarns] });
-    //     }
-    //   }
-    // );
   },
 };
