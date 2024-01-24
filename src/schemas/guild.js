@@ -4,6 +4,8 @@ const guildSchema = new Schema({
   guildId: String,
   guildName: String,
   guildIcon: { type: String, required: false },
+  guildCreationDate: { type: Date, default: Date.now()},
+  guildMembers: { type: Number, default: 0 },
 });
 
 module.exports = model("Guild", guildSchema, "guilds");
