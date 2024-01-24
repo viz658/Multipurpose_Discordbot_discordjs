@@ -7,7 +7,7 @@ module.exports = {
     .addUserOption((option) =>
       option.setName("target").setDescription("The user you'd like to info on")
     ),
-  category: "moderation",
+  category: "community",
   async execute(interaction, client) {
     const user = interaction.options.getUser("target") || interaction.user;
     const member = await interaction.guild.members
