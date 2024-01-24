@@ -12,38 +12,66 @@ module.exports = {
     ),
   category: "moderation",
   async execute(interaction, client) {
-    const target = interaction.options.getUser("target");
+    const target = interaction.options.getUser("target") || interaction.user;
     const embed = new EmbedBuilder()
       .setTitle(`⚠️🚨Warnings for ${target.tag}🚨⚠️`)
       .setColor("Red");
     const noWarns = new EmbedBuilder()
       .setDescription("✅ This user has no warnings!")
       .setColor("Green");
-    warningSchema.findOne(
-      { GuildID: interaction.guild.id, UserID: target.id, Usertag: target.tag },
-      async (err, data) => {
-        if (err) throw err;
+      try {
+        const data = await warningSchema.findOne({
+          GuildID: interaction.guild.id,
+          UserID: target.id,
+          UserTag: target.tag,
+        });
+      
         if (data) {
-          embed
-            .setDescription(
-              `✅ ${data.Content.length} warnings found for ${
-                target.tag
-              }: \n${data.Content.map(
-                (w, i) =>
-                `
-                  **Warning**: ${i + 1} 
-                  **Moderator**: ${w.ModeratorTag} 
-                  **Reason**: ${w.Reason}
-                `
-              )}`
-            )
-            .join("-");
-
+          const warnings = data.Content.map(
+            (w, i) =>
+              `
+                **Warning**: ${i + 1} 
+                **Moderator**: ${w.ModeratorTag} 
+                **Reason**: ${w.Reason}
+              `
+          ).join("-");
+      
+          embed.setDescription(
+            `✅ ${data.Content.length} warnings found for ${target.tag}: \n${warnings}`
+          );
+      
           return await interaction.reply({ embeds: [embed] });
         } else {
           return await interaction.reply({ embeds: [noWarns] });
         }
-      }
-    );
+      } catch (err) {
+        console.error(err);
+      }  
+    // warningSchema.findOne(
+    //   { GuildID: interaction.guild.id, UserID: target.id, Usertag: target.tag },
+    //   async (err, data) => {
+    //     if (err) throw err;
+    //     if (data) {
+    //       embed
+    //         .setDescription(
+    //           `✅ ${data.Content.length} warnings found for ${
+    //             target.tag
+    //           }: \n${data.Content.map(
+    //             (w, i) =>
+    //             `
+    //               **Warning**: ${i + 1} 
+    //               **Moderator**: ${w.ModeratorTag} 
+    //               **Reason**: ${w.Reason}
+    //             `
+    //           )}`
+    //         )
+    //         .join("-");
+
+    //       return await interaction.reply({ embeds: [embed] });
+    //     } else {
+    //       return await interaction.reply({ embeds: [noWarns] });
+    //     }
+    //   }
+    // );
   },
 };

@@ -34,41 +34,44 @@ module.exports = {
       });
     }
     const targetTag = `${target.username}`;
+    try {
+      let data = await warningSchema.findOne({
+        GuildID: interaction.guild.id,
+        UserID: target.id,
+        UserTag: targetTag,
+      });
 
-    warningSchema.findOne(
-      { GuildID: interaction.guild.id, UserID: target.id, Usertag: targetTag },
-      async (err, data) => {
-        if (err) throw err;
-
-        if (!data) {
-          data = new warningSchema({
-            GuildID: interaction.guild.id,
-            UserID: target.id,
-            UserTag: targetTag,
-            Content: [
-              {
-                Moderator: interaction.user.id,
-                ModeratorTag: interaction.user.tag,
-                Reason: reason,
-              },
-            ],
-          });
-        } else {
-          const warnContent = {
-            Moderator: interaction.user.id,
-            ModeratorTag: interaction.user.tag,
-            Reason: reason,
-          };
-          data.Content.push(warnContent);
-        }
-        data.save();
+      if (!data) {
+        data = new warningSchema({
+          GuildID: interaction.guild.id,
+          UserID: target.id,
+          UserTag: targetTag,
+          Content: [
+            {
+              Moderator: interaction.user.id,
+              ModeratorTag: interaction.user.tag,
+              Reason: reason,
+            },
+          ],
+        });
+      } else {
+        const warnContent = {
+          Moderator: interaction.user.id,
+          ModeratorTag: interaction.user.tag,
+          Reason: reason,
+        };
+        data.Content.push(warnContent);
       }
-    );
+
+      await data.save();
+    } catch (err) {
+      console.error(err);
+    }
 
     const embed1 = new EmbedBuilder()
       .setColor("Blurple")
       .setDescription(
-        `⚠️🚨 You have been**warned** in ${interaction.guild.name} ${
+        `⚠️🚨 You have been **warned** in ${interaction.guild.name} ${
           reason ? " for " : ""
         } ${reason}`
       );
