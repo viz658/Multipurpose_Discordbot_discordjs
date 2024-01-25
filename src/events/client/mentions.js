@@ -6,7 +6,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
-  name: "mentions",
+  name: "messageCreate",
   async execute(message, client) {
     async function sendMessage(reply) {
       const embed = new EmbedBuilder()
@@ -22,7 +22,7 @@ module.exports = {
         embed.setFooter({
           text: `If your intention was not to recieve this message use the delete button below`,
         });
-        const button = new ActionRowBuilder.addComponents(
+        const button = new ActionRowBuilder().addComponents(
           new ButtonBuilder()
             .setCustomId("delete")
             .setLabel("🗑️ Delete")
@@ -42,7 +42,7 @@ module.exports = {
       }
     }
 
-    if (message.mentions.user.first() == client.user) {
+    if (message.mentions.users.first() == client.user) {
       if (message.reference) {
         await sendMessage(true);
       } else {
