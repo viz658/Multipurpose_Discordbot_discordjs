@@ -5,6 +5,5 @@ module.exports = {
   once: true,
   async execute(client) {
     console.log(chalk.bgGreen(`${client.user.tag} is online`));
-
   },
 };
