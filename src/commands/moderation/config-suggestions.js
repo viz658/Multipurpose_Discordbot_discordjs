@@ -5,7 +5,6 @@ const {
   PermissionFlagsBits,
 } = require("discord.js");
 const GuildConfiguration = require("../../schemas/GuildConfiguration");
-
 /**
  *
  * @param {Object} param0

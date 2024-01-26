@@ -3,6 +3,7 @@ const { ApplicationCommandType, ContextMenuCommandBuilder } = require("discord.j
 module.exports = {
   data: new ContextMenuCommandBuilder()
     .setName("getAvatar")
+    .setDMPermission(false)
     .setType(ApplicationCommandType.User),
     category: "applications",
   async execute(interaction, client) {
