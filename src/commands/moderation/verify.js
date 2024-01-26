@@ -10,12 +10,12 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("verify")
-    .setDescription("Verification for discord server in a verification channel")
+    .setDescription("Verification for discord server in a verification channel sends verification button in channel")
     .setDMPermission(false)
     .addRoleOption((option) =>
       option
         .setName("role")
-        .setDescription("The role to verify")
+        .setDescription("The verified role")
         .setRequired(true)
     ),
   category: "moderation",
