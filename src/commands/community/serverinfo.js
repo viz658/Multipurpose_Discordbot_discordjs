@@ -19,29 +19,22 @@ module.exports = {
     let totalOnlineSize = totalOnline.size;
     let guildProfile = await Guild.findOne({
       guildId: interaction.guild.id,
-      guildName: interaction.guild.name,
-      guildIcon: interaction.guild.iconURL()
-        ? interaction.guild.iconURL()
-        : "None",
       guildCreationDate: interaction.guild.createdAt,
-      guildMembers: interaction.guild.memberCount,
     });
+    let guildIcon = interaction.guild.iconURL()
+      ? interaction.guild.iconURL()
+      : "None";
     if (!guildProfile) {
       guildProfile = await new Guild({
         _id: new mongoose.Types.ObjectId(),
         guildId: interaction.guild.id,
-        guildName: interaction.guild.name,
-        guildIcon: interaction.guild.iconURL()
-          ? interaction.guild.iconURL()
-          : "None",
         guildCreationDate: interaction.guild.createdAt,
-        guildMembers: interaction.guild.memberCount,
       });
       const embed = new EmbedBuilder()
         .setTitle("Server Info")
         .addFields({
           name: "Server Name",
-          value: guildProfile.guildName,
+          value: interaction.guild.name,
         })
         .addFields({
           name: "Server Owner",
@@ -53,7 +46,7 @@ module.exports = {
         })
         .addFields({
           name: "Server Members",
-          value: `${guildProfile.guildMembers}`,
+          value: `${interaction.guild.memberCount}`,
         })
         .addFields({
           name: "Total Online Members",
@@ -61,20 +54,19 @@ module.exports = {
         })
         .setFooter({ text: `Server ID: ${guildProfile.guildId}` })
         .setColor("Random");
-      if (guildProfile.guildIcon !== "None") {
-        embed.setThumbnail(guildProfile.guildIcon);
+      if (guildIcon !== "None") {
+        embed.setThumbnail(guildIcon);
       }
       await guildProfile.save().catch(console.error);
       await interaction.reply({
         embeds: [embed],
       });
-      console.log(guildProfile);
     } else {
       const embed = new EmbedBuilder()
         .setTitle("Server Info")
         .addFields({
           name: "Server Name",
-          value: guildProfile.guildName,
+          value: interaction.guild.name,
         })
         .addFields({
           name: "Server Owner",
@@ -86,7 +78,7 @@ module.exports = {
         })
         .addFields({
           name: "Server Members",
-          value: `${guildProfile.guildMembers}`,
+          value: `${interaction.guild.memberCount}`,
         })
         .addFields({
           name: "Total Online Members",
@@ -94,8 +86,8 @@ module.exports = {
         })
         .setFooter({ text: `Server ID: ${guildProfile.guildId}` })
         .setColor("Random");
-      if (guildProfile.guildIcon !== "None") {
-        embed.setThumbnail(guildProfile.guildIcon);
+      if (guildIcon !== "None") {
+        embed.setThumbnail(guildIcon);
       }
       await interaction.reply({
         embeds: [embed],
