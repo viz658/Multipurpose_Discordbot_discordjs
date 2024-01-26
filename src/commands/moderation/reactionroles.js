@@ -9,6 +9,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("reaction-roles")
     .setDescription("Create a reaction role system")
+    .setDMPermission(false)
     .addSubcommand((command) =>
       command
         .setName("add")

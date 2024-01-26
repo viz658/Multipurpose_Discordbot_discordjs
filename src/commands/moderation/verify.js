@@ -11,6 +11,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("verify")
     .setDescription("Verification for discord server in a verification channel")
+    .setDMPermission(false)
     .addRoleOption((option) =>
       option
         .setName("role")

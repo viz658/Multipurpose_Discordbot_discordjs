@@ -4,7 +4,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("reactor")
     .setDescription("Returns reactions")
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   category: "test",
   async execute(interaction, client) {
     const message = await interaction.reply({

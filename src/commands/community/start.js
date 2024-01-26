@@ -35,7 +35,8 @@ global.handleMessage = function (message) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("start")
-    .setDescription("Starts the math process"),
+    .setDescription("Starts the math process")
+    .setDMPermission(false),
   category: "community",
   async execute(interaction, client) {
     if (interaction.commandName === "start" && !global.hasStarted) {

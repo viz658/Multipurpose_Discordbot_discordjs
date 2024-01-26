@@ -4,7 +4,8 @@ const { Hangman } = require("discord-gamecord");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("hangman")
-    .setDescription("Play a game of hangman"),
+    .setDescription("Play a game of hangman")
+    .setDMPermission(false),
   category: "games",
   async execute(interaction, client) {
     const theme = [ 'nature', 'sport', 'color', 'camp', 'fruit', 'discord', 'winter', 'pokemon']

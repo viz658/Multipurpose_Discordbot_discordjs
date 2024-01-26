@@ -10,7 +10,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("modal")
     .setDescription("Modal test")
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   category: "test",
   async execute(interaction, client) {
     const modal = new ModalBuilder().setTitle("Modal").setCustomId("fav-color");

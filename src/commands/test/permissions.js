@@ -8,7 +8,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName(`permissions`)
     .setDescription("permissions test")
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   category: "test",
   async execute(interaction, client) {
     const { roles } = interaction.member;

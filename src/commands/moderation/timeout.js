@@ -8,6 +8,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("timeout")
     .setDescription("timeout member ")
+    .setDMPermission(false)
     .addUserOption((option) =>
       option
         .setName("target")

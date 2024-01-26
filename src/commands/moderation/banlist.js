@@ -3,7 +3,8 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("banlist")
-    .setDescription("Return list of banned users"),
+    .setDescription("Return list of banned users")
+    .setDMPermission(false),
   category: "moderation",
   async execute(interaction, client) {
     await interaction.guild.bans.fetch().then(async (bans) => {

@@ -5,6 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("trivia")
     .setDescription("Play a game of trivia")
+    .setDMPermission(false)
     .addStringOption((option) =>
       option
         .setName("difficulty")

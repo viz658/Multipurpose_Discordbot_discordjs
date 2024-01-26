@@ -6,7 +6,8 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("massunban")
-    .setDescription("unban all banned users"),
+    .setDescription("unban all banned users")
+    .setDMPermission(false),
   category: "moderation",
   async execute(interaction, client) {
     const users = await interaction.guild.bans.fetch();

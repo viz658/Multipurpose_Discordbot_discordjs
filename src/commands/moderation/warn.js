@@ -9,6 +9,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("warn")
     .setDescription("Warn a user")
+    .setDMPermission(false)
     .addUserOption((option) =>
       option
         .setName("target")

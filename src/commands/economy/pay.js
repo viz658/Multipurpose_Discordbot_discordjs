@@ -5,6 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("pay")
     .setDescription("Pay a user amnount amount of money")
+    .setDMPermission(false)
     .addUserOption((option) =>
       option
         .setName("user")

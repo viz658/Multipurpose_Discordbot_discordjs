@@ -4,6 +4,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("eval")
     .setDescription("Evaluate javascript code (dev only)")
+    .setDMPermission(false)
     .addStringOption((option) =>
       option
         .setName("code")

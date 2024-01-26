@@ -25,7 +25,7 @@ module.exports = (client) => {
     }
 
     const clientId = "1194418694873419806";
-    const guildId = "770447702860759050"; //dev server
+    //const guildId = "770447702860759050"; //dev server
     const rest = new REST({ version: "9" }).setToken(process.env.token);
     try {
       console.log(
@@ -33,7 +33,7 @@ module.exports = (client) => {
       );
 
       const data = await rest.put(
-        Routes.applicationGuildCommands(clientId, guildId),
+        Routes.applicationCommands(clientId),
         {
           body: client.commandArray,
         }
@@ -47,27 +47,6 @@ module.exports = (client) => {
     } catch (error) {
       console.log(error);
     }
-    // const clientId = "1194418694873419806";
-    // const guildId = "770447702860759050"; // You can remove this line
-    // const rest = new REST({ version: "9" }).setToken(process.env.token);
-    // try {
-    //   console.log(chalk.cyanBright("Started refreshing application (/) commands."));
-
-    //   const data = await rest.put(
-    // Routes.applicationGuildCommands(clientId, guildId), // Replace this line
-    //   Routes.applicationCommands(clientId), // with this line
-    //   {
-    //     body: client.commandArray,
-    //   }
-    // );
-
-    //   console.log(
-    //     chalk.green(
-    //       `Succesfully reloaded ${data.length} application (/) commands.`
-    //     )
-    //   );
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    
   };
 };

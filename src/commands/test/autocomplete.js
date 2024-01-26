@@ -4,6 +4,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("autocomplete")
     .setDescription("Returns autocomplete")
+    .setDMPermission(false)
     .addStringOption((option) =>
       option
         .setName("colour")

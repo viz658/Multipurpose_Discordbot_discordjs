@@ -9,6 +9,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("clear")
     .setDescription("Clear a number of messages in a channel")
+    .setDMPermission(false)
     .addIntegerOption((option) =>
       option
         .setName("amount")

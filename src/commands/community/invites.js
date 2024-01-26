@@ -3,7 +3,8 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("invites")
-    .setDescription("Show invites leaderboard"),
+    .setDescription("Show invites leaderboard")
+    .setDMPermission(false),
   category: "community",
   async execute(interaction, client) {
     var invites = await interaction.guild.invites.fetch();

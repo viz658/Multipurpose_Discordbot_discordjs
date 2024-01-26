@@ -5,6 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("clearwarns")
     .setDescription("Clear warnings on an user")
+    .setDMPermission(false)
     .addUserOption((option) =>
       option
         .setName("target")

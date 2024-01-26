@@ -4,6 +4,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("balance")
     .setDescription("Return balance of user")
+    .setDMPermission(false)
     .addUserOption((option) =>
       option.setName("user").setDescription("User to get balance of")
     ),

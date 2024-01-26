@@ -10,6 +10,7 @@ module.exports = {
     .setDescription(
       "Create a custom embed - requires manage channels permissions"
     )
+    .setDMPermission(false)
     .addStringOption((option) =>
       option
         .setName("color")

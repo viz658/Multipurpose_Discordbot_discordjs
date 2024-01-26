@@ -9,7 +9,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("menu")
     .setDescription("Menu test")
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   category: "test",
   async execute(interaction, client) {
     const row = new ActionRowBuilder().addComponents(

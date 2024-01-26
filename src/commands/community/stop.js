@@ -3,7 +3,8 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("stop")
-    .setDescription("Stops the math process"),
+    .setDescription("Stops the math process")
+    .setDMPermission(false),
   category: "community",
   async execute(interaction, client) {
     if (interaction.channel.id === global.channelId) {

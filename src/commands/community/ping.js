@@ -3,7 +3,8 @@ const { SlashCommandBuilder }  = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription('Return my ping!'),
+        .setDescription('Return my ping!')
+        .setDMPermission(false),
         category: "community",
     async execute(interaction, client) {
         const message = await interaction.deferReply({

@@ -5,6 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("rock-paper-scissors")
     .setDescription("Play a game of rock paper scissors")
+    .setDMPermission(false)
     .addUserOption((option) =>
       option
         .setName("opponent")
