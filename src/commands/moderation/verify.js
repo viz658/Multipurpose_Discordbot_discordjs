@@ -58,6 +58,11 @@ module.exports = {
         (r) => r.id === role.id
       );
       const member = i.member;
+      if (member.roles.cache.has(verifiedrole.id))
+        return await i.followUp({
+          content: `You `,
+          ephemeral: true,
+        });
       member.roles.add(verifiedrole);
 
       await i.followUp({

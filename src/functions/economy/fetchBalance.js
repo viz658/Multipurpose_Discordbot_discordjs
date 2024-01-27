@@ -18,9 +18,7 @@ module.exports = (client) => {
       await storedBalance
         .save()
         .then(async (balance) => {
-          console.log(
-            `New balance created for ${balance.userId} in ${balance.guildId}!`
-          );
+          
         })
         .catch(console.error);
       return storedBalance;
