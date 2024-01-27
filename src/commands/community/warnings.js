@@ -41,9 +41,9 @@ module.exports = {
             `✅ ${data.Content.length} warnings found for ${target.tag}: \n${warnings}`
           );
       
-          return await interaction.reply({ embeds: [embed] });
+          return await interaction.reply({ embeds: [embed], ephemeral: true});
         } else {
-          return await interaction.reply({ embeds: [noWarns] });
+          return await interaction.reply({ embeds: [noWarns], ephemeral: true});
         }
       } catch (err) {
         console.error(err);

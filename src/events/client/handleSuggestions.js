@@ -4,7 +4,7 @@ const formatResults = require("../../functions/tools/formatResults");
 
 module.exports = {
   name: "interactionCreate",
-  async execute(interaction, client) {
+  async execute(interaction) {
     if (!interaction.isButton() || !interaction.customId) return;
 
     try {

@@ -92,6 +92,6 @@ module.exports = {
           ephemeral: true,
         });
       });
-    interaction.reply({ embeds: [embed2] });
+    interaction.reply({ embeds: [embed2], ephemeral: true});
   },
 };
