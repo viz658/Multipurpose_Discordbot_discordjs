@@ -13,6 +13,7 @@ module.exports = (client) => {
         _id:  new Types.ObjectId(),
         userId: userId,
         guildId: guildId,
+        
       });
 
       await storedBalance

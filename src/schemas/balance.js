@@ -4,6 +4,11 @@ const balanceSchema = new Schema({
   userId: String,
   guildId: String,
   balance: { type: Number, default: 0 },
+  lastDaily: {
+    type: Date,
+    default: new Date(new Date().setDate(new Date().getDate() - 1)),
+    required: true,
+  }
 });
 
 module.exports = model("Balance", balanceSchema, "balances");

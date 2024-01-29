@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/rest": "^2.2.0",
+    "canvacord": "^5.4.8",
     "chalk": "^4.1.2",
     "discord-api-types": "^0.37.67",
     "discord-gamecord": "^4.4.1",
@@ -18,8 +19,8 @@
     "dotenv": "^16.3.1",
     "mathjs": "^12.2.1",
     "mongoose": "^8.1.0",
+    "openai": "^4.3.0",
     "punycode": "^2.3.1",
-    "rss-parser": "^3.13.0",
-    "openai": "^4.3.0"
+    "rss-parser": "^3.13.0"
   }
 }
