@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/rest": "^2.2.0",
-    "canvacord": "^5.4.8",
+    "canvacord": "^6.0.1",
     "chalk": "^4.1.2",
     "discord-api-types": "^0.37.67",
     "discord-gamecord": "^4.4.1",
