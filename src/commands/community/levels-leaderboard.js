@@ -36,7 +36,7 @@ module.exports = {
         };
       } else {
         return {
-          avatarURL: "src\\assets\\defaultlbuser.webp", // replace with your default avatar URL
+          avatarURL: "src\\assets\\saddogoo.jpg", // replace with your default avatar URL
           username: "More users need to engage",
         };
       }
@@ -47,7 +47,6 @@ module.exports = {
     const rank3 = await fetchUserAndAvatar(top5Ranks[2]);
     const rank4 = await fetchUserAndAvatar(top5Ranks[3]);
     const rank5 = await fetchUserAndAvatar(top5Ranks[4]);
-
     Font.loadDefault();
     const lb = new LeaderboardBuilder()
       .setHeader({
@@ -64,44 +63,44 @@ module.exports = {
           avatar: `${rank1.avatarURL}`,
           username: `${rank1.username}`,
           displayName: `${rank1.username}`,
-          level: rank1.level,
-          xp: rank1.xp,
+          level: top5Ranks[0] ? top5Ranks[0].level : 0,
+          xp: top5Ranks[0] ? top5Ranks[0].xp : 0,
           rank: 1,
         },
         {
           avatar: `${rank2.avatarURL}`,
           username: `${rank2.username}`,
           displayName: `${rank2.username}`,
-          level: rank2.level,
-          xp: rank2.xp,
+          level: top5Ranks[1] ? top5Ranks[1].level : 0,
+          xp: top5Ranks[1] ? top5Ranks[1].xp : 0,
           rank: 2,
         },
         {
           avatar: `${rank3.avatarURL}`,
           username: `${rank3.username}`,
           displayName: `${rank3.username}`,
-          level: rank3.level,
-          xp: rank3.xp,
+          level: top5Ranks[2] ? top5Ranks[2].level : 0,
+          xp: top5Ranks[2] ? top5Ranks[2].xp : 0,
           rank: 3,
         },
         {
           avatar: `${rank4.avatarURL}`,
           username: `${rank4.username}`,
           displayName: `${rank4.username}`,
-          level: rank4.level,
-          xp: rank4.xp,
+          level: top5Ranks[3] ? top5Ranks[3].level : 0,
+          xp: top5Ranks[3] ? top5Ranks[3].xp : 0,
           rank: 4,
         },
         {
           avatar: `${rank5.avatarURL}`,
           username: `${rank5.username}`,
           displayName: `${rank5.username}`,
-          level: rank5.level,
-          xp: rank5.xp,
+          level: top5Ranks[4] ? top5Ranks[4].level : 0,
+          xp: top5Ranks[4] ? top5Ranks[4].xp : 0,
           rank: 5,
         },
       ])
-      .setBackground("src\\assets\\levelslb.jpg");
+      .setBackground("src\\assets\\uqy8U9A.jpg");
     const image = await lb.build({ format: "png" });
     const attachment = new AttachmentBuilder(image);
     await interaction.reply({ files: [attachment] });

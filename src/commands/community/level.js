@@ -60,7 +60,7 @@ module.exports = {
       .setRequiredXP(calculateLevelXp(fetchedLevel.level))
       .setStatus(targetUserObj.presence.status)
       .setUsername(targetUserObj.user.username)
-      .setOverlay(90)
+      .setOverlay(50)
       .setBackground("src\\assets\\level.png");
       
     const data = await rank.build({ format: "png" });
