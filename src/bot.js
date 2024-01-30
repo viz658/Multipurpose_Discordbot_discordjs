@@ -22,6 +22,19 @@ const client = new Client({
 client.commands = new Collection();
 client.commandArray = [];
 
+//anticrash
+// const processs = require("node:process");
+
+// processs.on("unhandledRejection", async (reason, promise) => {
+//   console.log("Unhandled Rejection at:", promise, "reason:", reason);
+// });
+// processs.on("uncaughtException", async (error) => {
+//   console.log("Uncaught Exception:", error);
+// });
+// processs.on("uncaughtExceptionMonitor", (err, origin) => {
+//   console.log("Uncaught Exception Monitor:", err, origin);
+// });
+
 const functionFolders = fs.readdirSync("./src/functions");
 for (const folder of functionFolders) {
   const functionFiles = fs
