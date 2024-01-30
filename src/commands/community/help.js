@@ -1,15 +1,15 @@
-const { SlashCommandBuilder } = require("discord.js");
 const {
+  SlashCommandBuilder,
   EmbedBuilder,
   ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
+  StringSelectMenuBuilder,
+  StringSelectMenuOptionBuilder,
 } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("help")
-    .setDescription("dynamic help command"),
+    .setDescription("help command"),
   category: "community",
   async execute(interaction, client) {
     const communityCommands = client.commands.filter(
@@ -31,23 +31,19 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor("Blue")
       .setTitle("Help & resources")
-      .setDescription("Commands help")
+      .setDescription(
+        "Use the following menu to navigate through the command categories"
+      )
       .setThumbnail(client.user.displayAvatarURL())
       .setTimestamp(Date.now())
       .setFooter({
         iconURL: client.user.displayAvatarURL(),
         text: client.user.tag,
       })
-      .addFields({ name: "Page 1", value: "Help & resources" })
-      .addFields({ name: "Page 2", value: "Community Commands" })
-      .addFields({ name: "Page 3", value: "Moderation Commands" })
-      .addFields({ name: "Page 4", value: "Application Commands" })
-      .addFields({ name: "Page 5", value: "Economy Commands" })
-      .addFields({ name: "Page 6", value: "Game Commands" })
       .addFields({
-        name: "Add VizGuard",
+        name: "Add VizsGuard",
         value:
-          "[Add VizGuard to your server](https://discord.com/api/oauth2/authorize?client_id=1194418694873419806&permissions=8&scope=bot)",
+          "[Add VizsGuard to your server](https://discord.com/api/oauth2/authorize?client_id=1194418694873419806&permissions=8&scope=bot)",
       });
     const embed2 = new EmbedBuilder()
       .setColor("Blue")
@@ -139,118 +135,91 @@ module.exports = {
       }
     });
     embed6.setDescription(description6);
-
-    const buttonRow1 = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-        .setCustomId("page1")
-        .setLabel("Page 1")
-        .setStyle(ButtonStyle.Success),
-      new ButtonBuilder()
-        .setCustomId("page2")
-        .setLabel("Page 2")
-        .setStyle(ButtonStyle.Success),
-      new ButtonBuilder()
-        .setCustomId("page3")
-        .setLabel("Page 3")
-        .setStyle(ButtonStyle.Success),
-      new ButtonBuilder()
-        .setCustomId("page4")
-        .setLabel("Page 4")
-        .setStyle(ButtonStyle.Success),
-      new ButtonBuilder()
-        .setCustomId("page5")
-        .setLabel("Page 5")
-        .setStyle(ButtonStyle.Success)
+    const menu = new ActionRowBuilder().addComponents(
+      new StringSelectMenuBuilder()
+        .setCustomId("helpselect")
+        .setPlaceholder("Select a command category")
+        .addOptions(
+          new StringSelectMenuOptionBuilder()
+            .setLabel("Community Commands")
+            .setValue("Community Commands"),
+          new StringSelectMenuOptionBuilder()
+            .setLabel("Moderation Commands")
+            .setValue("Moderation Commands"),
+          new StringSelectMenuOptionBuilder()
+            .setLabel("Application Commands")
+            .setValue("Application Commands"),
+          new StringSelectMenuOptionBuilder()
+            .setLabel("Economy Commands")
+            .setValue("Economy Commands"),
+          new StringSelectMenuOptionBuilder()
+            .setLabel("Game Commands")
+            .setValue("Game Commands"),
+          new StringSelectMenuOptionBuilder()
+            .setLabel("Help & resources")
+            .setValue("Help & resources")
+        )
     );
-
-    const buttonRow2 = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-        .setCustomId("page6")
-        .setLabel("Page 6")
-        .setStyle(ButtonStyle.Success)
-    );
-
     const message = await interaction.reply({
       embeds: [embed],
-      components: [buttonRow1, buttonRow2],
+      components: [menu],
     });
-
-    const collector = await message.createMessageComponentCollector();
+    const collector = message.createMessageComponentCollector();
 
     collector.on("collect", async (i) => {
-      if (i.customId === "page1") {
+      if (i.values[0] === "Help & resources") {
         if (i.user.id !== interaction.user.id) {
           return await i.reply({
-            content: `Only ${interaction.user.username} can use this button`,
+            content: `Only ${interaction.user.username} can use this`,
             ephemeral: true,
           });
         }
-        await i.update({
-          embeds: [embed],
-          components: [buttonRow1, buttonRow2],
-        });
+        await i.update({ embeds: [embed], components: [menu] });
       }
-
-      if (i.customId === "page2") {
+      if (i.values[0] === "Community Commands") {
         if (i.user.id !== interaction.user.id) {
           return await i.reply({
-            content: `Only ${interaction.user.username} can use this button`,
+            content: `Only ${interaction.user.username} can use this`,
             ephemeral: true,
           });
         }
-        await i.update({
-          embeds: [embed2],
-          components: [buttonRow1, buttonRow2],
-        });
+        await i.update({ embeds: [embed2], components: [menu] });
       }
-
-      if (i.customId === "page3") {
+      if (i.values[0] === "Moderation Commands") {
         if (i.user.id !== interaction.user.id) {
           return await i.reply({
-            content: `Only ${interaction.user.username} can use this button`,
+            content: `Only ${interaction.user.username} can use this`,
             ephemeral: true,
           });
         }
-        await i.update({
-          embeds: [embed3],
-          components: [buttonRow1, buttonRow2],
-        });
+        await i.update({ embeds: [embed3], components: [menu] });
       }
-      if (i.customId === "page4") {
+      if (i.values[0] === "Application Commands") {
         if (i.user.id !== interaction.user.id) {
           return await i.reply({
-            content: `Only ${interaction.user.username} can use this button`,
+            content: `Only ${interaction.user.username} can use this`,
             ephemeral: true,
           });
         }
-        await i.update({
-          embeds: [embed4],
-          components: [buttonRow1, buttonRow2],
-        });
+        await i.update({ embeds: [embed4], components: [menu] });
       }
-      if (i.customId === "page5") {
+      if (i.values[0] === "Economy Commands") {
         if (i.user.id !== interaction.user.id) {
           return await i.reply({
-            content: `Only ${interaction.user.username} can use this button`,
+            content: `Only ${interaction.user.username} can use this`,
             ephemeral: true,
           });
         }
-        await i.update({
-          embeds: [embed5],
-          components: [buttonRow1, buttonRow2],
-        });
+        await i.update({ embeds: [embed5], components: [menu] });
       }
-      if (i.customId === "page6") {
+      if (i.values[0] === "Game Commands") {
         if (i.user.id !== interaction.user.id) {
           return await i.reply({
-            content: `Only ${interaction.user.username} can use this button`,
+            content: `Only ${interaction.user.username} can use this`,
             ephemeral: true,
           });
         }
-        await i.update({
-          embeds: [embed6],
-          components: [buttonRow1, buttonRow2],
-        });
+        await i.update({ embeds: [embed6], components: [menu] });
       }
     });
   },

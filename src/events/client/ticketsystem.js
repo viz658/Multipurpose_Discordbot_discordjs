@@ -45,6 +45,7 @@ module.exports = {
 
     let choices;
     if (interaction.isStringSelectMenu()) {
+      if (interaction.customId === "ticketselect") {
       choices = interaction.values;
 
       const result = choices.join("");
@@ -57,6 +58,10 @@ module.exports = {
         })
         .then((value) => {
         });
+      }
+      else {
+        return;
+      }
     }
 
     if (interaction.type !== InteractionType.ModalSubmit) {

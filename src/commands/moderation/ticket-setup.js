@@ -73,7 +73,7 @@ module.exports = {
       });
     const menu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId("select")
+        .setCustomId("ticketselect")
         .setMinValues(1)
         .setPlaceholder("Select a topic...")
         .addOptions(

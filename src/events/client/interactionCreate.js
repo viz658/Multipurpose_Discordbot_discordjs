@@ -1,4 +1,4 @@
-const { InteractionType } = require("discord.js");
+const { InteractionType, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
@@ -8,7 +8,19 @@ module.exports = {
       const { commandName } = interaction;
       const command = commands.get(commandName);
       if (!command) return;
-
+      //blacklisted users
+      let blacklistedusers = ["no user blacklisted yet"];
+      if (blacklistedusers.includes(interaction.user.id)){
+        const embed = new EmbedBuilder()
+          .setColor("Red")
+          .setDescription("⚠️You are blacklisted from using this bot⚠️")
+          .addFields({ name: "Appeal here", value: "[Vizsguard Support server](https://discord.gg/MNYPqaH9Wv)"})
+          .setFooter({
+            text: "If you wish to appeal please join the support server and make a ticket."
+          });
+        return await interaction.reply({ embeds: [embed], ephemeral: true});
+      }
+      //
       try {
         await command.execute(interaction, client);
       } catch (error) {

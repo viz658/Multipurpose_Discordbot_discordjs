@@ -20,7 +20,25 @@ module.exports = {
       .addFields({ name: `Server Creation `, value: `> ${guild.createdAt}` })
       .setTimestamp()
       .setFooter({ text: " Joined a server " });
-
-    await channel.send({ embeds: [embed] });
+      await channel.send({ embeds: [embed] });
+    //blacklisted servers
+      let blacklistedservers = ["no blacklisted servers yet"];
+        if (blacklistedservers.includes(guild.id)){
+          const owner = await client.users.cache.get(guild.ownerId);
+            const embed = new EmbedBuilder()
+                .setColor("Red")
+                .setDescription("⚠️This server is blacklisted from using this bot⚠️")
+                .addFields({ name: "Appeal here", value: "[Vizsguard Support server](https://discord.gg/MNYPqaH9Wv)"})
+                .setFooter({
+                    text: "If you wish to appeal please join the support server and make a ticket."
+                });
+             await owner.send({ embeds: [embed]}).catch( err => console.log(err));
+             await guild.leave();
+        }
+        else {
+            return;
+        }
+    //
+    
   },
 };
