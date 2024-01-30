@@ -44,7 +44,9 @@ module.exports = {
         name: "Add VizsGuard",
         value:
           "[Add VizsGuard to your server](https://discord.com/api/oauth2/authorize?client_id=1194418694873419806&permissions=8&scope=bot)",
-      });
+      })
+      .addFields({ name: "Support Server", value: "[Join the support server](https://discord.gg/MNYPqaH9Wv)"})
+      ;
     const embed2 = new EmbedBuilder()
       .setColor("Blue")
       .setTitle("Community Commands")
