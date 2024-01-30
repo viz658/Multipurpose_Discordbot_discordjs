@@ -16,6 +16,18 @@ const welcomeChannelSchema = new Schema(
             type: String,
             default: null,
         },
+        imageDescription: {
+            type: String,
+            default: null,
+        },
+        enableImage:{
+            type: Boolean,
+            default: false,
+        },
+        customimageURL: {
+            type: String,
+            default: null,
+        }
     },
     { timestamps: true }
 );

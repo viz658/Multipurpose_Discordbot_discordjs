@@ -2,6 +2,7 @@ const {
   SlashCommandBuilder,
   PermissionFlagsBits,
   ChannelType,
+  EmbedBuilder,
 } = require("discord.js");
 const welcomeChannelSchema = require("../../schemas/WelcomeChannel.js");
 
@@ -33,18 +34,23 @@ module.exports = {
       const channelExistsInDb = await welcomeChannelSchema.exists(query);
 
       if (!channelExistsInDb) {
-        interaction.followUp(
-          "That channel has not been configured for welcome messages."
-        );
+        const embed = new EmbedBuilder()
+          .setColor("Red")
+          .setDescription(
+            "⚠️That channel has not been configured for welcome messages.⚠️"
+          );
+        interaction.followUp({ embeds: [embed] });
         return;
       }
-
+      const embed = new EmbedBuilder()
+        .setColor("Green")
+        .setDescription(
+          `✅ Removed ${targetChannel} from receiving welcome messages.`
+        );
       welcomeChannelSchema
         .findOneAndDelete(query)
         .then(() => {
-          interaction.followUp(
-            `Removed ${targetChannel} from receiving welcome messages.`
-          );
+          interaction.followUp({ embeds: [embed] });
         })
         .catch((error) => {
           interaction.followUp("Database error. Please try again in a moment.");
