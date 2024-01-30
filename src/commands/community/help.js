@@ -58,14 +58,13 @@ module.exports = {
         iconURL: client.user.displayAvatarURL(),
         text: client.user.tag,
       });
+    let description2 = "";
     communityCommands.forEach((command) => {
       if (command.data.description) {
-        embed2.addFields({
-          name: `/${command.data.name}`,
-          value: command.data.description,
-        });
+        description2 += `/**${command.data.name}** - ${command.data.description}\n`;
       }
     });
+    embed2.setDescription(description2);
 
     const embed3 = new EmbedBuilder()
       .setColor("Blue")
@@ -76,14 +75,13 @@ module.exports = {
         iconURL: client.user.displayAvatarURL(),
         text: client.user.tag,
       });
+    let description3 = "";
     moderationCommands.forEach((command) => {
       if (command.data.description) {
-        embed3.addFields({
-          name: `/${command.data.name}`,
-          value: command.data.description,
-        });
+        description3 += `**/${command.data.name}** - ${command.data.description}\n`;
       }
     });
+    embed3.setDescription(description3);
 
     const embed4 = new EmbedBuilder()
       .setColor("Blue")
@@ -94,19 +92,15 @@ module.exports = {
         iconURL: client.user.displayAvatarURL(),
         text: client.user.tag,
       });
+    let description4 = "";
     applicationCommands.forEach((command) => {
       if (command.data.description) {
-        embed4.addFields({
-          name: `/${command.data.name}`,
-          value: command.data.description,
-        });
+        description4 += `**/${command.data.name}** - ${command.data.description}\n`;
       } else {
-        embed4.addFields({
-          name: `/${command.data.name}`,
-          value: "No description",
-        });
+        description4 += `**/${command.data.name}** -`;
       }
     });
+    embed4.setDescription(description4);
 
     const embed5 = new EmbedBuilder()
       .setColor("Blue")
@@ -117,19 +111,16 @@ module.exports = {
         iconURL: client.user.displayAvatarURL(),
         text: client.user.tag,
       });
+    let description5 = "";
     economyCommands.forEach((command) => {
       if (command.data.description) {
-        embed5.addFields({
-          name: `/${command.data.name}`,
-          value: command.data.description,
-        });
+        description5 += `**/${command.data.name}** - ${command.data.description}\n`;
       } else {
-        embed5.addFields({
-          name: `/${command.data.name}`,
-          value: "No description",
-        });
+        description5 += `**/${command.data.name}** - No description\n`;
       }
     });
+    embed5.setDescription(description5);
+
     const embed6 = new EmbedBuilder()
       .setColor("Blue")
       .setTitle("Game Commands")
@@ -139,19 +130,15 @@ module.exports = {
         iconURL: client.user.displayAvatarURL(),
         text: client.user.tag,
       });
+    let description6 = "";
     gameCommands.forEach((command) => {
       if (command.data.description) {
-        embed6.addFields({
-          name: `/${command.data.name}`,
-          value: command.data.description,
-        });
+        description6 += `**/${command.data.name}** - ${command.data.description}\n`;
       } else {
-        embed6.addFields({
-          name: `/${command.data.name}`,
-          value: "No description",
-        });
+        description6 += `**/${command.data.name}** - No description\n`;
       }
     });
+    embed6.setDescription(description6);
 
     const buttonRow1 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
