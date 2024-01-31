@@ -5,6 +5,12 @@ const { connect } = require("mongoose");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { OpenAI } = require("openai");
 const fs = require("fs");
+//music 
+const { DisTube } = require("distube");
+
+const { SpotifyPlugin } = require('@distube/spotify');
+const { SoundCloudPlugin } = require('@distube/soundcloud');
+const { YtDlpPlugin } = require('@distube/yt-dlp');
 
 //main client
 const client = new Client({
@@ -17,6 +23,7 @@ const client = new Client({
     GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.GuildPresences,
     GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildVoiceStates,
   ],
 });
 client.commands = new Collection();
@@ -47,6 +54,13 @@ for (const folder of functionFolders) {
 client.handleEvents();
 client.handleCommands();
 client.login(token);
+client.distube = new DisTube(client, {
+  emitNewSongOnly: true,
+  leaveOnFinish: true,// you can change this to your needs
+  emitAddSongWhenCreatingQueue: false,
+  plugins: [new SpotifyPlugin(), new SoundCloudPlugin(), new YtDlpPlugin()]
+});
+
 connect(databaseToken).catch(console.error);
 (async () => {
   await connect(databaseToken).catch(console.error);
