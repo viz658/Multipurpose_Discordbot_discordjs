@@ -7,7 +7,7 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("roleall")
-    .setDescription("Set the autorole for the server.")
+    .setDescription("Apply a role to every member")
     .setDMPermission(false)
     .addRoleOption((option) =>
       option
@@ -46,7 +46,7 @@ module.exports = {
         const embed2 = new EmbedBuilder()
           .setColor("Green")
           .setDescription(
-            `✅Successfully gave the role ${role.name} to ${membersadded} members`
+            `✅Successfully gave the role ${role} to ${membersadded} members`
           );
 
         await interaction.editReply({ embeds: [embed2], ephemeral: true });
