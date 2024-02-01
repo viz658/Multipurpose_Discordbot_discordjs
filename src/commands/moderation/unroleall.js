@@ -42,11 +42,11 @@ const {
           member.roles.remove(role).catch((err) => {
             return;
           });
-          membersaremoved++;
+          membersremoved++;
           const embed2 = new EmbedBuilder()
             .setColor("Green")
             .setDescription(
-              `✅Successfully removed the role ${role} to ${membersremoved} members`
+              `✅Successfully removed the role ${role} from ${membersremoved} members`
             );
   
           await interaction.editReply({ embeds: [embed2], ephemeral: true });
