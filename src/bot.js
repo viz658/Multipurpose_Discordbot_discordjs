@@ -28,7 +28,68 @@ const client = new Client({
 });
 client.commands = new Collection();
 client.commandArray = [];
+client.distube = new DisTube(client, {
+  emitNewSongOnly: true,
+  leaveOnFinish: true,// you can change this to your needs
+  emitAddSongWhenCreatingQueue: false,
+  plugins: [new SpotifyPlugin(), new SoundCloudPlugin(), new YtDlpPlugin()]
+});
+let status = (queue) =>
+      `Volume: \`${queue.volume}%\` | Filter: \`${
+        queue.filters.names.join(", ") || "Off"
+      }\` | Loop: \`${
+        queue.repeatMode
+          ? queue.repeatMode === 2
+            ? "All Queue"
+            : "This Song"
+          : "Off"
+      }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
+client.distube.on("playSong", async (queue, song) => {
+  if (queue.currentMessage) {
+    queue.currentMessage.delete().catch(console.error);
+    queue.currentMessage = undefined;
+  }
 
+  // Send the music card
+  await client.sendMusicCard(queue, song).catch(console.error);
+});
+client.distube.on("addSong", (queue, song) => {
+  queue.textChannel.send(
+    `🎶 Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
+  );
+});
+client.distube.on("addList", (queue, playlist) => {
+  queue.textChannel.send(
+    `🎶 Added \`${playlist.name}\` playlist (${
+      playlist.songs.length
+    } songs) to queue\n${status(queue)}`
+  );
+});
+client.distube.on("error", (channel, e) => {
+  console.error(e);
+});
+client.distube.on("empty", (channel) => {
+  channel.send("⛔ Voice channel is empty! Leaving the channel...");
+});
+client.distube.on("searchNoResult", (message, query) => {
+  message.channel.send(`⛔ No result found for \`${query}\`!`);
+});
+client.distube.on("finish", (queue) => {
+  queue.textChannel.send("🏁 Queue finished!").then((message) => {
+    queue.currentMessage = message;
+  });
+  queue.connection.disconnect();
+});
+//giveaways
+const GiveawaysManager = require("./giveaways.js");
+client.giveawayManager = new GiveawaysManager(client, {
+  default : {
+    botsCanWin: false,
+    embedColor: "#0af593",
+    embedColorEnd: "#ab030c",
+    reaction: "🎉"
+  }
+})
 //anticrash
 // const processs = require("node:process");
 
@@ -51,16 +112,10 @@ for (const folder of functionFolders) {
     require(`./functions/${folder}/${file}`)(client);
 }
 
+
 client.handleEvents();
 client.handleCommands();
 client.login(token);
-client.distube = new DisTube(client, {
-  emitNewSongOnly: true,
-  leaveOnFinish: true,// you can change this to your needs
-  emitAddSongWhenCreatingQueue: false,
-  plugins: [new SpotifyPlugin(), new SoundCloudPlugin(), new YtDlpPlugin()]
-});
-
 connect(databaseToken).catch(console.error);
 (async () => {
   await connect(databaseToken).catch(console.error);

@@ -27,6 +27,9 @@ module.exports = {
     const gameCommands = client.commands.filter(
       (command) => command.category === "games"
     );
+    const musicCommands = client.commands.filter(
+      (command) => command.category === "music"
+    );
 
     const embed = new EmbedBuilder()
       .setColor("Blue")
@@ -45,8 +48,10 @@ module.exports = {
         value:
           "[Add VizsGuard to your server](https://discord.com/api/oauth2/authorize?client_id=1194418694873419806&permissions=8&scope=bot)",
       })
-      .addFields({ name: "Support Server", value: "[Join the support server](https://discord.gg/MNYPqaH9Wv)"})
-      ;
+      .addFields({
+        name: "Support Server",
+        value: "[Join the support server](https://discord.gg/MNYPqaH9Wv)",
+      });
     const embed2 = new EmbedBuilder()
       .setColor("Blue")
       .setTitle("Community Commands")
@@ -137,29 +142,58 @@ module.exports = {
       }
     });
     embed6.setDescription(description6);
+
+    const embed7 = new EmbedBuilder()
+      .setColor("Blue")
+      .setTitle("Music Commands")
+      .setThumbnail(client.user.displayAvatarURL())
+      .setTimestamp(Date.now())
+      .setFooter({ 
+        iconURL: client.user.displayAvatarURL(),
+        text: client.user.tag,
+      });
+    let description7 = "";
+    musicCommands.forEach((command) => {
+        description7 += `**/${command.data.name}** - ${command.data.description}\n Use button components to control the music player.`;
+    });
+    embed7.setDescription(description7);
+    embed7.addFields({ name: "Buttons:", value: " "});
+    embed7.addFields({ name: "Pause", value: "Pause song"});
+    embed7.addFields({ name: "Resume", value: "Resume song"});
+    embed7.addFields({ name: "Skip", value: "Skip to queued song"});
+    embed7.addFields({ name: "Stop", value: "Stops music"});
+    embed7.addFields({ name: "Volume Up", value: "Increase volume"});
+    embed7.addFields({ name: "Volume Down", value: "Decrease volume"});
+    embed7.addFields({ name: "Shuffle", value: "Shuffle queue"});
+    embed7.addFields({ name: "Repeat", value: "Repeat song"});
+    embed7.setFooter({ text: "Thank you to typedrago for sharing his music card system!"});
+
     const menu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId("helpselect")
         .setPlaceholder("Select a command category")
         .addOptions(
           new StringSelectMenuOptionBuilder()
-            .setLabel("Community Commands")
+            .setLabel("🫂 Community Commands")
             .setValue("Community Commands"),
           new StringSelectMenuOptionBuilder()
-            .setLabel("Moderation Commands")
+            .setLabel("👀 Moderation Commands")
             .setValue("Moderation Commands"),
           new StringSelectMenuOptionBuilder()
-            .setLabel("Application Commands")
+            .setLabel("📲 Application Commands")
             .setValue("Application Commands"),
           new StringSelectMenuOptionBuilder()
-            .setLabel("Economy Commands")
+            .setLabel("💵 Economy Commands")
             .setValue("Economy Commands"),
           new StringSelectMenuOptionBuilder()
-            .setLabel("Game Commands")
+            .setLabel("🎮 Game Commands")
             .setValue("Game Commands"),
           new StringSelectMenuOptionBuilder()
-            .setLabel("Help & resources")
-            .setValue("Help & resources")
+            .setLabel("🆘 Help & resources")
+            .setValue("Help & resources"),
+            new StringSelectMenuOptionBuilder()
+            .setLabel("🎵 Music")
+            .setValue("Music")
         )
     );
     const message = await interaction.reply({
@@ -222,6 +256,15 @@ module.exports = {
           });
         }
         await i.update({ embeds: [embed6], components: [menu] });
+      }
+      if (i.values[0] === "Music") {
+        if (i.user.id !== interaction.user.id) {
+          return await i.reply({
+            content: `Only ${interaction.user.username} can use this`,
+            ephemeral: true,
+          });
+        }
+        await i.update({ embeds: [embed7], components: [menu] });
       }
     });
   },

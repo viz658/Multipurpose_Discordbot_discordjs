@@ -44,7 +44,7 @@ module.exports = {
         num++;
       }
       
-      await sendMessage(` **Invite Leaderboard** \n\n${string}`);
+      await sendMessage(`📩 **Invite Leaderboard** \n\n${string}`);
 
     
     //   interaction.client.on('guildMemberRemove', async member => {
