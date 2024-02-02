@@ -106,10 +106,10 @@ module.exports = {
     switch (sub) {
       case "flag-words":
         const flagChannel = options.getChannel("flag-alerts");
+        // if (!data) {
+        //   await automodSchema.create({ Guild: guild.id, isEnabled: false });
+        // }
         if (!data) {
-          await automodSchema.create({ Guild: guild.id, isEnabled: false });
-        }
-        if (data.isEnabled === false) {
           const embed = new EmbedBuilder()
             .setColor("Red")
             .setDescription(
@@ -174,10 +174,8 @@ module.exports = {
 
       case "keywords":
         const keywordChannel = options.getChannel("keywords-alerts");
+
         if (!data) {
-          await automodSchema.create({ Guild: guild.id, isEnabled: false });
-        }
-        if (data.isEnabled === false) {
           const embed = new EmbedBuilder()
             .setColor("Red")
             .setDescription(
@@ -253,9 +251,6 @@ module.exports = {
       case "spam":
         const spamChannel = options.getChannel("spam-alerts");
         if (!data) {
-          await automodSchema.create({ Guild: guild.id, isEnabled: false });
-        }
-        if (data.isEnabled === false) {
           const embed = new EmbedBuilder()
             .setColor("Red")
             .setDescription(
@@ -316,10 +311,8 @@ module.exports = {
 
       case "mentions":
         const mentionsChannel = options.getChannel("mentions-alerts");
+
         if (!data) {
-          await automodSchema.create({ Guild: guild.id, isEnabled: false });
-        }
-        if (data.isEnabled === false) {
           const embed = new EmbedBuilder()
             .setColor("Red")
             .setDescription(
@@ -391,10 +384,7 @@ module.exports = {
         break;
 
       case "enable":
-        if (!data) {
-          await automodSchema.create({ Guild: guild.id, isEnabled: false });
-        }
-        if (data.isEnabled === true) {
+        if (data) {
           const embed = new EmbedBuilder()
             .setColor("Red")
             .setDescription(
@@ -402,10 +392,7 @@ module.exports = {
             );
           return await interaction.reply({ embeds: [embed], ephemeral: true });
         } else {
-          await automodSchema.findOneAndUpdate(
-            { Guild: guild.id },
-            { Guild: guild.id, isEnabled: true }
-          );
+          await automodSchema.create({ Guild: guild.id });
           const embed = new EmbedBuilder()
             .setColor("Green")
             .setDescription(
@@ -417,9 +404,6 @@ module.exports = {
 
       case "disable":
         if (!data) {
-          await automodSchema.create({ Guild: guild.id, isEnabled: false });
-        }
-        if (data.isEnabled === false) {
           const embed = new EmbedBuilder()
             .setColor("Red")
             .setDescription(
@@ -449,10 +433,7 @@ module.exports = {
           // Wait for all rule deletions to complete
           await Promise.all(deletePromises);
 
-          await automodSchema.findOneAndUpdate(
-            { Guild: guild.id },
-            { Guild: guild.id, isEnabled: false }
-          );
+          await automodSchema.findOneAndDelete({ Guild: guild.id });
           const cembed = new EmbedBuilder()
             .setColor("Green")
             .setDescription("✅Automod system has been successfully disabled!");

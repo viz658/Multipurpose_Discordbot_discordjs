@@ -8,7 +8,7 @@ const welcomeChannelSchema = require("../../schemas/WelcomeChannel.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("remove-welcome-channel")
+    .setName("remove-welcome")
     .setDescription("Remove a welcome channel.")
     .setDMPermission(false)
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)

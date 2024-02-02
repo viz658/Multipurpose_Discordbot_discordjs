@@ -74,14 +74,18 @@ client.distube.on("addList", (queue, playlist) => {
     } songs) to queue\n${status(queue)}`
   );
 });
-client.distube.on("error", (channel, e) => {
+client.distube.on("error", (e) => {
   console.error(e);
 });
-client.distube.on("empty", (channel) => {
-  channel.send("⛔ Voice channel is empty! Leaving the channel...");
+client.distube.on("empty", (queue) => {
+  //queue.textChannel.send("⛔ Voice channel is empty! Leaving the channel...");
+  if (queue.currentMessage) {
+    queue.currentMessage.delete().catch(console.error);
+    queue.currentMessage = undefined;
+  }
 });
 client.distube.on("searchNoResult", (message, query) => {
-  message.channel.send(`⛔ No result found for \`${query}\`!`);
+  message.textChannel.send(`⛔ No result found for \`${query}\`!`);
 });
 client.distube.on("finish", (queue) => {
   queue.textChannel.send("🏁 Queue finished!").then((message) => {
@@ -99,6 +103,19 @@ client.giveawayManager = new GiveawaysManager(client, {
     reaction: "🎉",
   },
 });
+client.giveawayManager.on("giveawayEnded", async (giveaway, winners) => {
+  try {
+    await client.giveawayManager.deleteGiveaway(giveaway.messageId);
+    //console.log(`Deleted giveaway with ID ${giveaway.messageId}`);
+  } catch (err) {
+    console.error(
+      `Failed to delete giveaway with ID ${giveaway.messageId}: ${err}`
+    );
+  }
+});
+
+//
+
 //anticrash
 // const processs = require("node:process");
 
@@ -140,10 +157,17 @@ client.on(Events.GuildAuditLogEntryCreate, async (auditLog, guild) => {
 
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle("Mod-logs")
+    .setTitle(`${guild.name} Mod-logs`)
+    .setFooter({ text: "To disable modlogs use /modlogs disable" })
     .setTimestamp();
+  //check if guild icon exists
+  if (guild.iconURL()) {
+    embed.setThumbnail(guild.iconURL({ dynamic: true }));
+  } else {
+    embed.setThumbnail(client.user.displayAvatarURL({ dynamic: true }));
+  }
 
-  const { action, extra: channel, executorId, targetId } = auditLog;
+  const { action, executorId, targetId } = auditLog;
 
   //console.log(auditLog);
 
@@ -200,12 +224,10 @@ client.on(Events.GuildAuditLogEntryCreate, async (auditLog, guild) => {
       `🤖 **${executor.user}** added the bot **${target.user}** to the server`
     );
   } else if (action === AuditLogEvent.MemberDisconnect) {
-
     embed.setDescription(
       `🔌 **${executor.user}** disconnected a user from **vc**`
     );
   } else if (action === AuditLogEvent.MemberMove) {
-
     const movedToChannel = auditLog.extra.channel;
     const movedToChannelName = movedToChannel.name;
     embed.setDescription(
@@ -214,8 +236,10 @@ client.on(Events.GuildAuditLogEntryCreate, async (auditLog, guild) => {
   } else if (action === AuditLogEvent.MessageDelete) {
     const target = await guild.members.fetch(targetId);
     if (target.bot) return;
+    const deletedmsgchannel = auditLog.extra.channel;
+    const channelname = deletedmsgchannel.name;
     embed.setDescription(
-      `🗑️ **${executor.user}** deleted a message by ${target.user} in **${channel.name}**`
+      `🗑️ **${executor.user}** deleted a message by **${target.user}** in **${channelname}**`
     );
   } else if (action === AuditLogEvent.RoleDelete) {
     const roleNameChange = auditLog.changes.find(
