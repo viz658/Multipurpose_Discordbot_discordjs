@@ -2,9 +2,9 @@ const {
   SlashCommandBuilder,
   EmbedBuilder,
   PermissionsBitField,
+  ChannelType,
 } = require("discord.js");
 const automodSchema = require("../../schemas/Automod.js");
-const { set } = require("mongoose");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,9 +21,29 @@ module.exports = {
       subcommand
         .setName("flag-words")
         .setDescription("Block profanity or unpermitted nsfw content")
+        .addChannelOption((option) =>
+          option
+            .setName("flag-alerts")
+            .setDescription(
+              "The channel to send flag alerts when a rule is triggered"
+            )
+            .addChannelTypes(ChannelType.GuildText)
+            .setRequired(true)
+        )
     )
     .addSubcommand((subcommand) =>
-      subcommand.setName("spam").setDescription("Block spamming messages")
+      subcommand
+        .setName("spam")
+        .setDescription("Block spamming messages")
+        .addChannelOption((option) =>
+          option
+            .setName("spam-alerts")
+            .setDescription(
+              "The channel to send spam alerts when a rule is triggered"
+            )
+            .addChannelTypes(ChannelType.GuildText)
+            .setRequired(true)
+        )
     )
     .addSubcommand((subcommand) =>
       subcommand
@@ -33,6 +53,15 @@ module.exports = {
           option
             .setName("max")
             .setDescription("Max amount of mentions that can be sent")
+            .setRequired(true)
+        )
+        .addChannelOption((option) =>
+          option
+            .setName("mentions-alerts")
+            .setDescription(
+              "The channel to send mentions alerts when a rule is triggered"
+            )
+            .addChannelTypes(ChannelType.GuildText)
             .setRequired(true)
         )
     )
@@ -46,12 +75,21 @@ module.exports = {
             .setDescription("The word to block")
             .setRequired(true)
         )
+        .addChannelOption((option) =>
+          option
+            .setName("keywords-alerts")
+            .setDescription(
+              "The channel to send keywords alerts when a rule is triggered"
+            )
+            .addChannelTypes(ChannelType.GuildText)
+            .setRequired(true)
+        )
     ),
+
   category: "moderation",
   async execute(interaction) {
     const { guild, options } = interaction;
     const sub = options.getSubcommand();
-
     if (
       !interaction.member.permissions.has(
         PermissionsBitField.Flags.Administrator
@@ -67,6 +105,7 @@ module.exports = {
     const data = await automodSchema.findOne({ Guild: guild.id });
     switch (sub) {
       case "flag-words":
+        const flagChannel = options.getChannel("flag-alerts");
         if (!data) {
           await automodSchema.create({ Guild: guild.id, isEnabled: false });
         }
@@ -97,9 +136,15 @@ module.exports = {
                 type: 1,
                 metadata: {
                   channel: interaction.channel,
-                  durationSeconds: 30,
+                  durationSeconds: 8,
                   customMessage:
                     "Message prevented by Vizsguard automod system",
+                },
+              },
+              {
+                type: 2,
+                metadata: {
+                  channel: flagChannel,
                 },
               },
             ],
@@ -128,6 +173,7 @@ module.exports = {
         break;
 
       case "keywords":
+        const keywordChannel = options.getChannel("keywords-alerts");
         if (!data) {
           await automodSchema.create({ Guild: guild.id, isEnabled: false });
         }
@@ -159,9 +205,24 @@ module.exports = {
                 type: 1,
                 metadata: {
                   channel: interaction.channel,
-                  durationSeconds: 30,
+                  durationSeconds: 8,
                   customMessage:
                     "Message prevented by Vizsguard automod system",
+                },
+              },
+              {
+                type: 2,
+                metadata: {
+                  channel: keywordChannel,
+                },
+              },
+              {
+                type: 3,
+                metadata: {
+                  channel: interaction.channel,
+                  durationSeconds: 30,
+                  customMessage:
+                    "Your message was removed due to a keyword filter! Timedouut for 30 seconds!",
                 },
               },
             ],
@@ -190,6 +251,7 @@ module.exports = {
         break;
 
       case "spam":
+        const spamChannel = options.getChannel("spam-alerts");
         if (!data) {
           await automodSchema.create({ Guild: guild.id, isEnabled: false });
         }
@@ -203,7 +265,7 @@ module.exports = {
         }
         const embed5 = new EmbedBuilder()
           .setColor("Blue")
-          .setDescription("🔃Loading flag-words rule...");
+          .setDescription("🔃Loading Spam rule...");
         //const number = options.getInteger("max");
         await interaction.reply({ embeds: [embed5], ephemeral: true });
         const rule3 = await guild.autoModerationRules
@@ -213,17 +275,20 @@ module.exports = {
             enabled: true,
             eventType: 1,
             triggerType: 3, //spam
-            triggerMetadata: {
-              //mentionTotalLimit: number
-            },
             actions: [
               {
                 type: 1,
                 metadata: {
                   channel: interaction.channel,
-                  durationSeconds: 30,
+                  durationSeconds: 8,
                   customMessage:
                     "Message prevented by Vizsguard automod system",
+                },
+              },
+              {
+                type: 2,
+                metadata: {
+                  channel: spamChannel,
                 },
               },
             ],
@@ -250,6 +315,7 @@ module.exports = {
         break;
 
       case "mentions":
+        const mentionsChannel = options.getChannel("mentions-alerts");
         if (!data) {
           await automodSchema.create({ Guild: guild.id, isEnabled: false });
         }
@@ -263,7 +329,7 @@ module.exports = {
         }
         const embed6 = new EmbedBuilder()
           .setColor("Blue")
-          .setDescription("🔃Loading flag-words rule...");
+          .setDescription("🔃Loading mentions rule...");
         const max = options.getInteger("max");
         await interaction.reply({ embeds: [embed6], ephemeral: true });
         const rule4 = await guild.autoModerationRules
@@ -281,9 +347,24 @@ module.exports = {
                 type: 1,
                 metadata: {
                   channel: interaction.channel,
-                  durationSeconds: 30,
+                  durationSeconds: 10,
                   customMessage:
                     "Message prevented by Vizsguard automod system",
+                },
+              },
+              {
+                type: 2,
+                metadata: {
+                  channel: mentionsChannel,
+                },
+              },
+              {
+                type: 3,
+                metadata: {
+                  channel: interaction.channel,
+                  durationSeconds: 30,
+                  customMessage:
+                    "Mention spam detected! Timed out for 30 seconds!",
                 },
               },
             ],

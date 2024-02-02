@@ -2,8 +2,6 @@ module.exports = {
   name: "interactionCreate",
 
   async execute(interaction, client) {
-    
-
     if (!interaction.isButton()) return;
 
     const filter = (i) =>
@@ -21,19 +19,33 @@ module.exports = {
     if (filter(interaction)) {
       const queue = client.distube.getQueue(interaction.guildId);
       if (!queue) return;
+      //check if member is in the same voice channel as the bot
+      const isVcWithBot =
+        interaction.member.voice.channelId ==
+        interaction.guild.members.me.voice.channelId;
+      if (!isVcWithBot) {
+        return await interaction.reply({
+          content: "You must be in the same voice channel as the bot.",
+          ephemeral: true,
+        });
+      }
 
       if (interaction.customId === "pause") {
-        client.distube.pause(interaction.guild);
-        await interaction.update({ content: "⏸ Music paused." });
+        if (!queue.paused) {
+          client.distube.pause(interaction.guild);
+          await interaction.update({ content: `⏸ Music paused by ${interaction.user}.` });
+        } else {
+          await interaction.update({ content: "⏸ Music is already paused." });
+        }
       } else if (interaction.customId === "resume") {
-        if (!queue.pause) {
+        if (!queue.playing) {
+          client.distube.resume(interaction.guild);
+          await interaction.update({ content: `▶️ Music resumed by ${interaction.user}.` });
+        } else {
           await interaction.update({
-            content: "▶️ Music is not paused.",
+            content: "▶️ Music is already playing.",
             ephemeral: true,
           });
-        } else {
-          client.distube.resume(interaction.guild);
-          await interaction.update({ content: "▶️ Music resumed." });
         }
       } else if (interaction.customId === "skip") {
         if (queue.songs.length <= 1) {
@@ -43,12 +55,12 @@ module.exports = {
           });
         } else {
           client.distube.skip(interaction.guild);
-          await interaction.update({ content: "⏭️ Song skipped." });
+          await interaction.update({ content: `⏭️ Song skipped by ${interaction.user}` });
         }
       } else if (interaction.customId === "stop") {
         client.distube.stop(interaction.guild);
         //delete attachment and message sent by play.js
-        await interaction.update({ content: "⏹️ Music stopped." });
+        await interaction.update({ content: `⏹️ Music stopped by ${interaction.user}` });
         if (queue.currentMessage) {
           queue.currentMessage.delete().catch(console.error);
           queue.currentMessage = undefined;
@@ -66,7 +78,7 @@ module.exports = {
           const newVolume = Math.min(queue.volume + 10, 100);
           client.distube.setVolume(interaction.guild, newVolume);
           await interaction.update({
-            content: `🔊 Volume increased to ${newVolume}%`,
+            content: `🔊 Volume increased to ${newVolume}% by ${interaction.user}`,
           });
         }
       } else if (interaction.customId === "volumeDown") {
@@ -78,7 +90,7 @@ module.exports = {
           const newVolume = Math.max(queue.volume - 10, 0);
           client.distube.setVolume(interaction.guild, newVolume);
           await interaction.update({
-            content: `🔉 Volume decreased to ${newVolume}%`,
+            content: `🔉 Volume decreased to ${newVolume}% by ${interaction.user}`,
           });
         }
       } else if (interaction.customId === "shuffle") {
@@ -88,7 +100,7 @@ module.exports = {
           });
         } else {
           client.distube.shuffle(interaction.guild);
-          await interaction.update({ content: "🔀 Queue shuffled." });
+          await interaction.update({ content: `🔀 Queue shuffled by ${interaction.user}` });
         }
       } else if (interaction.customId === "repeat") {
         if (!queue.songs.length) {
@@ -102,7 +114,7 @@ module.exports = {
             repeatMode === 0 ? 1 : 0
           );
           await interaction.update({
-            content: `🔁 Repeat mode set to ${
+            content: `🔁 ${interaction.user} set Repeat mode to ${
               repeatMode === 0 ? "queue" : "off"
             }`,
           });

@@ -23,43 +23,43 @@ module.exports = (client) => {
     // Create the button components
     const pauseButton = new ButtonBuilder()
       .setCustomId("pause")
-      .setLabel("Pause")
+      .setLabel("⏸️Pause")
       .setStyle(ButtonStyle.Secondary);
 
     const resumeButton = new ButtonBuilder()
       .setCustomId("resume")
-      .setLabel("Resume")
+      .setLabel("▶️Resume")
       .setStyle(ButtonStyle.Secondary);
 
     const skipButton = new ButtonBuilder()
       .setCustomId("skip")
-      .setLabel("Skip")
+      .setLabel("➡️Skip")
       .setStyle(ButtonStyle.Danger);
 
     // Create a new action row for the additional buttons
     const stopButton = new ButtonBuilder()
       .setCustomId("stop")
-      .setLabel("Stop")
+      .setLabel("🛑Stop")
       .setStyle(ButtonStyle.Primary);
 
     const volumeUpButton = new ButtonBuilder()
       .setCustomId("volumeUp")
-      .setLabel("Volume Up")
+      .setLabel("🔊Volume Up")
       .setStyle(ButtonStyle.Success);
 
     const volumeDownButton = new ButtonBuilder()
       .setCustomId("volumeDown")
-      .setLabel("Volume Down")
+      .setLabel("🔉Volume Down")
       .setStyle(ButtonStyle.Danger);
 
     const repeat = new ButtonBuilder()
       .setCustomId("repeat")
-      .setLabel("Repeat")
+      .setLabel("🔁Repeat")
       .setStyle(ButtonStyle.Danger);
 
     const shuffle = new ButtonBuilder()
       .setCustomId("shuffle")
-      .setLabel("Shuffle")
+      .setLabel("🔀Shuffle")
       .setStyle(ButtonStyle.Danger);
 
     // Create action row components
