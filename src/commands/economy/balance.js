@@ -28,7 +28,8 @@ module.exports = {
       });
     } else {
       const embed = new EmbedBuilder()
-        .setTitle(`${target.tag}'s Balance`)
+        .setTitle(`${target.tag}'s Balance`) 
+        .setColor("Green")
         .setTimestamp()
         .addFields({
           name: `${currency}${storedBalance.balance}`,
@@ -38,7 +39,11 @@ module.exports = {
           text: client.user.tag,
           iconURL: client.user.displayAvatarURL(),
         });
-
+        //if guild has icon set thumbnail to guild icon
+      if (interaction.guild.iconURL()) {
+        embed.setThumbnail(interaction.guild.iconURL());
+      }
+      
       await interaction.reply({
         embeds: [embed],
         ephemeral: true,

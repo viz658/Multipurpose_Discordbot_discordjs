@@ -18,7 +18,7 @@ module.exports = {
         .setRequired(true)
     ),
   category: "economy",
-  async execute(interaction, client) {
+  async execute(interaction) {
     if (
       !interaction.member.permissions.has(
         PermissionsBitField.Flags.Administrator

@@ -13,6 +13,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
     .setType(ApplicationCommandType.User),
   category: "applications",
+  description: "Reset the level of a user",
   async execute(interaction, client) {
     const member = await interaction.guild.members.fetch(interaction.targetId);
     const query = {

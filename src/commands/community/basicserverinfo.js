@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("serverinfo")
-    .setDescription("Return some information about the server")
+    .setName("basic-serverinfo")
+    .setDescription("Return some basic information about the server")
     .setDMPermission(false),
   category: "community",
   async execute(interaction, client) {

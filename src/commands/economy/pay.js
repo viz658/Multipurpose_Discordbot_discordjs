@@ -5,7 +5,7 @@ const currencySchema = require("../../schemas/customCurrency.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("pay")
-    .setDescription("Pay a user amnount amount of money")
+    .setDescription("Pay a user")
     .setDMPermission(false)
     .addUserOption((option) =>
       option
@@ -25,7 +25,7 @@ module.exports = {
       interaction.guild.id
     );
     let currdata = await currencySchema.findOne({
-      guildId: interaction.guild.id,
+      Guild: interaction.guild.id,
     });
     let currency = currdata ? currdata.Currency : "$";
     if (targetUser.bot || targetUser.id == interaction.user.id)

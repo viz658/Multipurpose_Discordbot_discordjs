@@ -13,6 +13,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
     .setType(ApplicationCommandType.User),
   category: "applications",
+  description: "Reset the balance of a user",
   async execute(interaction, client) {
     const fetchedbalance = await client.fetchBalance(
       interaction.targetId,

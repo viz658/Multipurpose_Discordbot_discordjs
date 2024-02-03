@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { RockPaperScissors } = require("discord-gamecord");
+const currencySchema = require("../../schemas/customCurrency.js");
+const Balance = require("../../schemas/balance");
 
 module.exports = {
   data: new SlashCommandBuilder()

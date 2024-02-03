@@ -33,7 +33,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setColor("Blue")
-      .setTitle("Help & resources")
+      .setTitle("🆘 Help & resources")
       .setDescription(
         "Use the following menu to navigate through the command categories"
       )
@@ -54,7 +54,7 @@ module.exports = {
       });
     const embed2 = new EmbedBuilder()
       .setColor("Blue")
-      .setTitle("Community Commands")
+      .setTitle("🫂 Community Commands")
       .setThumbnail(client.user.displayAvatarURL())
       .setTimestamp(Date.now())
       .setFooter({
@@ -71,7 +71,7 @@ module.exports = {
 
     const embed3 = new EmbedBuilder()
       .setColor("Blue")
-      .setTitle("Moderation Commands")
+      .setTitle("👀 Moderation Commands")
       .setThumbnail(client.user.displayAvatarURL())
       .setTimestamp(Date.now())
       .setFooter({
@@ -88,7 +88,7 @@ module.exports = {
 
     const embed4 = new EmbedBuilder()
       .setColor("Blue")
-      .setTitle("Application Commands")
+      .setTitle("📲 Application Commands")
       .setThumbnail(client.user.displayAvatarURL())
       .setTimestamp(Date.now())
       .setFooter({
@@ -97,17 +97,17 @@ module.exports = {
       });
     let description4 = "";
     applicationCommands.forEach((command) => {
-      if (command.data.description) {
-        description4 += `**/${command.data.name}** - ${command.data.description}\n`;
+      if (command.description) {
+        description4 += `**/${command.data.name}** - ${command.description}\n`;
       } else {
-        description4 += `**/${command.data.name}** -`;
+        description4 += `**/${command.data.name}** -\n`;
       }
     });
     embed4.setDescription(description4);
 
     const embed5 = new EmbedBuilder()
       .setColor("Blue")
-      .setTitle("Economy Commands")
+      .setTitle("💵 Economy Commands")
       .setThumbnail(client.user.displayAvatarURL())
       .setTimestamp(Date.now())
       .setFooter({
@@ -126,7 +126,7 @@ module.exports = {
 
     const embed6 = new EmbedBuilder()
       .setColor("Blue")
-      .setTitle("Game Commands")
+      .setTitle("🎮 Game Commands")
       .setThumbnail(client.user.displayAvatarURL())
       .setTimestamp(Date.now())
       .setFooter({
@@ -145,7 +145,7 @@ module.exports = {
 
     const embed7 = new EmbedBuilder()
       .setColor("Blue")
-      .setTitle("Music Commands")
+      .setTitle("🎵 Music Commands")
       .setThumbnail(client.user.displayAvatarURL())
       .setTimestamp(Date.now())
       .setFooter({ 
@@ -158,15 +158,15 @@ module.exports = {
     });
     embed7.setDescription(description7);
     embed7.addFields({ name: "Buttons:", value: " "});
-    embed7.addFields({ name: "Pause", value: "Pause song"});
-    embed7.addFields({ name: "Resume", value: "Resume song"});
-    embed7.addFields({ name: "Skip", value: "Skip to queued song"});
-    embed7.addFields({ name: "Stop", value: "Stops music"});
-    embed7.addFields({ name: "Volume Up", value: "Increase volume"});
-    embed7.addFields({ name: "Volume Down", value: "Decrease volume"});
-    embed7.addFields({ name: "Shuffle", value: "Shuffle queue"});
-    embed7.addFields({ name: "Repeat", value: "Repeat song"});
-    embed7.setFooter({ text: "Thank you to typedrago for sharing his music card system!"});
+    embed7.addFields({ name: "⏸️ Pause", value: "Pause song"});
+    embed7.addFields({ name: "▶️ Resume", value: "Resume song"});
+    embed7.addFields({ name: "➡️ Skip", value: "Skip to queued song"});
+    embed7.addFields({ name: "🛑 Stop", value: "Stops music"});
+    embed7.addFields({ name: "🔊 Volume Up", value: "Increase volume"});
+    embed7.addFields({ name: "🔉 Volume Down", value: "Decrease volume"});
+    embed7.addFields({ name: "🔀 Shuffle", value: "Shuffle queue"});
+    embed7.addFields({ name: "🔁 Repeat", value: "Repeat song"});
+    embed7.setFooter({ text: "Thank you to typedrago for sharing his music card code!"});
 
     const menu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()

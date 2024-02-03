@@ -10,6 +10,7 @@ module.exports = {
     .setDMPermission(false)
     .setType(ApplicationCommandType.User),
   category: "applications",
+  description: "Get the information of a user",
   async execute(interaction) {
     const member = await interaction.guild.members.fetch(interaction.targetId);
     const embed = new EmbedBuilder()
