@@ -1,4 +1,3 @@
-const { Interaction } = require("discord.js");
 const Suggestion = require("../../schemas/Suggestion");
 const formatResults = require("../../functions/tools/formatResults");
 
@@ -16,9 +15,16 @@ module.exports = {
       await interaction.deferReply({ ephemeral: true });
 
       const targetSuggestion = await Suggestion.findOne({ suggestionId });
+      if (!targetSuggestion) {
+        await interaction.editReply(
+          "You can no longer vote for this suggestion."
+        );
+        return;
+      }
       const targetMessage = await interaction.channel.messages.fetch(
         targetSuggestion.messageId
       );
+
       const targetMessageEmbed = targetMessage.embeds[0];
 
       if (action === "approve") {

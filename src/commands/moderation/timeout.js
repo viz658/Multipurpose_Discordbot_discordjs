@@ -3,6 +3,7 @@ const {
   PermissionFlagsBits,
   EmbedBuilder,
 } = require("discord.js");
+const { string } = require("mathjs");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -33,18 +34,26 @@ module.exports = {
   async execute(interaction, client) {
     const user = interaction.options.getUser("target");
     let reason = interaction.options.getString("reason") || "";
-    const time = interaction.options.getInteger("time");
+    let time = interaction.options.getInteger("time");
     const member = await interaction.guild.members
       .fetch(user.id)
       .catch(console.error);
 
-    if (!time) time = null;
-
+      let string =  `You have been put in timeout in ${interaction.guild.name} ${
+        reason ? " for " : ""
+      } ${reason} for ${time} minutes`;
+      let descstring = `✅ ${user.tag} has been put in timeout ⌛${
+        reason ? " for " : ""
+      } ${reason} for ${time} minutes`;
+    if (time==0) {
+      time = null;
+      string = `Your timeout in ${interaction.guild.name} has been lifted!`
+      descstring = `✅ ${user.tag}'s timeout has been lifted!`
+    }
+    
     await user
       .send({
-        content: `You have been put in timeout in ${interaction.guild.name} ${
-          reason ? " for " : ""
-        } ${reason} for ${time} minutes`,
+        content: `${string}`,
       })
       .catch(() => console.log("User's DM's are off."));
 
@@ -54,13 +63,11 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor("Green")
       .setDescription(
-        `✅ ${user.tag} has been put in timeout ⌛${
-          reason ? " for " : ""
-        } ${reason} for ${time} minutes`
+        `${descstring}`
       )
       .setTimestamp(Date.now());
     await interaction.reply({
-      embeds: [embed],
+      embeds: [embed], ephemeral: true
     });
   },
 };

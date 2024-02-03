@@ -1,10 +1,11 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const Balance = require("../../schemas/balance");
+const currencySchema = require("../../schemas/customCurrency.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("daily")
-    .setDescription("Claim your daily 💸")
+    .setDescription("Claim your daily reward")
     .setDMPermission(false),
   category: "economy",
   async execute(interaction, client) {
@@ -13,6 +14,12 @@ module.exports = {
       interaction.user.id,
       interaction.guild.id
     );
+
+    let currdata = await currencySchema.findOne({
+      Guild: interaction.guild.id,
+    });
+    let currency = currdata ? currdata.Currency : "$";
+
     let data = await Balance.findOne({
       userId: interaction.user.id,
       guildId: interaction.guild.id,
@@ -33,7 +40,7 @@ module.exports = {
       if (lastDailyDate === currentDate) {
         const embed = new EmbedBuilder()
           .setDescription(
-            `⚠️You have already claimed your daily 💸 Please wait until tomorrow.⚠️`
+            `⚠️You have already claimed your daily ${currency} Please wait until tomorrow.⚠️`
           )
           .setColor("Red");
         return await interaction.reply({
@@ -53,7 +60,7 @@ module.exports = {
           }
         );
         const embed = new EmbedBuilder()
-          .setTitle(`You have claimed your daily 💸 of $${daily}`)
+          .setTitle(`You have claimed your daily of ${currency}${daily}`)
           .setDescription(
             `Your new balance is $${await client.toFixedNumber(
               userStoredBalance.balance + daily

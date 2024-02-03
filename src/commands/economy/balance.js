@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const currencySchema = require("../../schemas/customCurrency.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,6 +16,10 @@ module.exports = {
       target.id,
       interaction.guild.id
     );
+    let currdata = await currencySchema.findOne({
+      Guild: interaction.guild.id,
+    });
+    let currency = currdata ? currdata.Currency : "$";
 
     if (!storedBalance) {
       return await interaction.reply({
@@ -26,7 +31,7 @@ module.exports = {
         .setTitle(`${target.tag}'s Balance`)
         .setTimestamp()
         .addFields({
-          name: `$${storedBalance.balance}`,
+          name: `${currency}${storedBalance.balance}`,
           value: `\u200b`,
         })
         .setFooter({

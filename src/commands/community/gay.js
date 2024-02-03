@@ -16,8 +16,7 @@ module.exports = {
         const user = interaction.options.getUser("user") || interaction.user;
         let gayness = Math.floor(Math.random() * 100);
         let emoji = "";
-        if(user.id == "231182917999525889") gayness = 100; //chris
-        //if(user.id == "273972106415439872") gayness = 100; me
+        
         if (gayness <= 10) emoji = "🤮";
         if (gayness > 10 && gayness <= 20) emoji = "🤢";
         if (gayness > 20 && gayness <= 30) emoji = "😡";

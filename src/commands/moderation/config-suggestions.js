@@ -58,33 +58,42 @@ module.exports = {
     if (subcommand === "add") {
       const channel = interaction.options.getChannel("channel");
 
-      if (guildConfiguration.suggestionChannelIds.includes(channel.id)) {
-        await interaction.reply(`${channel} is already a suggestions channel.`);
+      if (guildConfiguration.suggestionChannelId === channel.id) {
+        await interaction.reply({
+          content: `${channel} is already a suggestions channel.`,
+          ephemeral: true,
+        });
         return;
       }
 
-      guildConfiguration.suggestionChannelIds.push(channel.id);
+      guildConfiguration.suggestionChannelId = channel.id;
       await guildConfiguration.save();
 
-      await interaction.reply(`Added ${channel} to suggestion channels.`);
+      await interaction.reply({
+        content: `Added ${channel} to suggestion channel.`,
+        ephemeral: true,
+      });
       return;
     }
 
     if (subcommand === "remove") {
       const channel = interaction.options.getChannel("channel");
 
-      if (!guildConfiguration.suggestionChannelIds.includes(channel.id)) {
-        await interaction.reply(`${channel} is not a suggestion channel.`);
+      if (guildConfiguration.suggestionChannelId !== (channel.id)) {
+        await interaction.reply({
+          content: `${channel} is not a suggestion channel.`,
+          ephemeral: true,
+        });
         return;
       }
 
-      guildConfiguration.suggestionChannelIds =
-        guildConfiguration.suggestionChannelIds.filter(
-          (id) => id !== channel.id
-        );
-      await guildConfiguration.save();
+      await guildConfiguration.deleteOne();
+      //await guildConfiguration.save();
 
-      await interaction.reply(`Removed ${channel} from suggestion channels.`);
+      await interaction.reply({
+        content: `Removed ${channel} as suggestion channel.`,
+        ephemeral: true,
+      });
       return;
     }
   },

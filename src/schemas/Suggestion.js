@@ -17,7 +17,6 @@ const suggestionSchema = new Schema(
     },
     messageId: {
       type: String,
-      required: true,
       unique: true,
     },
     content: {

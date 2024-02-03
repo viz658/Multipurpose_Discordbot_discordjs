@@ -32,23 +32,29 @@ module.exports = {
         guildId: interaction.guildId,
       });
 
-      if (!guildConfiguration?.suggestionChannelIds.length) {
-        await interaction.reply(
-          "This server has not been configured to use suggestions yet.\nAsk an admin to run `/config-suggestions add` to set this up."
-        );
+      if (!guildConfiguration) {
+        await interaction.reply({
+          content:
+            "This server has not been configured to use suggestions yet.\nAsk an admin to run `/config-suggestions add` to set this up.",
+          ephemeral: true,
+        });
         return;
       }
+      //get suggestion channel so later can send the suggestion in that channel
+      const suggestionChannel = interaction.guild.channels.cache.get(
+        guildConfiguration.suggestionChannelId
+      );
 
-      if (
-        !guildConfiguration.suggestionChannelIds.includes(interaction.channelId)
-      ) {
-        await interaction.reply(
-          `This channel is not configured to use suggestions. Try one of these channels instead: ${guildConfiguration.suggestionChannelIds
-            .map((id) => `<#${id}>`)
-            .join(", ")}`
-        );
-        return;
-      }
+      // if (
+      //   !guildConfiguration.suggestionChannelIds.includes(interaction.channelId)
+      // ) {
+      //   await interaction.reply(
+      //     `This channel is not configured to use suggestions. Try one of these channels instead: ${guildConfiguration.suggestionChannelIds
+      //       .map((id) => `<#${id}>`)
+      //       .join(", ")}`
+      //   );
+      //   return;
+      // }
 
       const modal = new ModalBuilder()
         .setTitle("Create a suggestion")
@@ -78,16 +84,17 @@ module.exports = {
 
       await modalInteraction.deferReply({ ephemeral: true });
 
-      let suggestionMessage;
-
       try {
-        suggestionMessage = await interaction.channel.send(
-          "Creating suggestion, please wait..."
-        );
+        modalInteraction.editReply({
+          content: "Creating suggestion, please wait...",
+          ephemeral: true,
+        });
       } catch (error) {
-        modalInteraction.editReply(
-          "Failed to create suggestion message in this channel. I may not have enough permissions."
-        );
+        modalInteraction.editReply({
+          content:
+            "Failed to create suggestion message in this channel. I may not have enough permissions.",
+          ephemeral: true,
+        });
         return;
       }
 
@@ -97,7 +104,6 @@ module.exports = {
       const newSuggestion = new Suggestion({
         authorId: interaction.user.id,
         guildId: interaction.guildId,
-        messageId: suggestionMessage.id,
         content: suggestionText,
       });
 
@@ -152,12 +158,15 @@ module.exports = {
         approveButton,
         rejectButton
       );
+      //change messageid to message id where suggestion embed is sent
 
-      suggestionMessage.edit({
-        content: `${interaction.user} Suggestion created!`,
+      const suggestionchannelmessage = await suggestionChannel.send({
+        content: `${interaction.user} has created a suggestion!`,
         embeds: [suggestionEmbed],
         components: [firstRow, secondRow],
       });
+      newSuggestion.messageId = suggestionchannelmessage.id;
+      await newSuggestion.save();
     } catch (error) {
       console.error(error);
       console.log(`Error in /suggest: ${error}`);

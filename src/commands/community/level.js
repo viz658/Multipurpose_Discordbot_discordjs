@@ -15,11 +15,22 @@ module.exports = {
         .setDescription("The user's level card you want to see")
     ),
   category: "community",
-  async execute(interaction, client) {
+  async execute(interaction) {
     const mentionedUserId = interaction.options.get("user")?.value;
     const targetUserId = mentionedUserId || interaction.member.id;
     const targetUserObj = await interaction.guild.members.fetch(targetUserId);
-
+   
+    //check if targetuser status is offline
+    if (!targetUserObj.presence) {
+      return await interaction.reply({
+        content: `${
+          mentionedUserId
+            ? `Unable to view level, ${targetUserObj.user.tag} is currently offline.`
+            : "Unable to view level, you are currently offline."
+        }`,
+        ephemeral: true,
+      });
+    }
     const fetchedLevel = await Level.findOne({
       userId: targetUserId,
       guildId: interaction.guild.id,

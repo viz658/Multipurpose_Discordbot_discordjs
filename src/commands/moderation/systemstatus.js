@@ -15,7 +15,7 @@ const notificationconfigSchema = require("../../schemas/NotificationConfig.js");
 const reactionroleSchema = require("../../schemas/reactionrs.js"); //reactionrole sys
 const ticketSchema = require("../../schemas/tickets.js"); //ticket sys
 const welcomeSchema = require("../../schemas/WelcomeChannel.js"); //welcome sys
-
+const antispamsetupSchema = require("../../schemas/antispamsetup.js"); //antispam sys
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("systemstatus")
@@ -36,8 +36,8 @@ module.exports = {
       return await interaction.reply({ embeds: [embed], ephemeral: true });
     }
     const loading = new EmbedBuilder()
-        .setDescription("🔃Retrieving system status...")
-        .setColor("Blue");
+      .setDescription("🔃Retrieving system status...")
+      .setColor("Blue");
     await interaction.reply({ embeds: [loading], ephemeral: true });
     let online = "🟢";
     let offline = "🔴";
@@ -53,7 +53,7 @@ module.exports = {
     let status10 = "";
     let status11 = "";
     let status12 = "";
-
+    let status13 = "";
     const antilinkdata = await linkSchema.findOne({
       Guild: interaction.guild.id,
     });
@@ -90,20 +90,19 @@ module.exports = {
     const welcomedata = await welcomeSchema.findOne({
       guildId: interaction.guild.id,
     });
+    const antispamdata = await antispamsetupSchema.findOne({
+      Guild: interaction.guild.id,
+    });
+
     if (!antilinkdata) {
       status1 = offline;
     } else {
       status1 = online;
     }
-    if (suggestionsdata) {
-        if(suggestionsdata.suggestionChannelIds.length === 0){
-            status2 = offline;
-        } 
-        else if(suggestionsdata.suggestionChannelIds.length > 0) {
-            status2 = online;
-        }
-    } else if(!suggestionsdata){
+    if (!suggestionsdata) {
       status2 = offline;
+    } else {
+      status2 = online;
     }
     if (!giveawaydata) {
       status3 = offline;
@@ -155,10 +154,15 @@ module.exports = {
     } else {
       status12 = online;
     }
+    if (!antispamdata) {
+      status13 = offline;
+    } else {
+      status13 = online;
+    }
     const embed = new EmbedBuilder()
       .setTitle(`💻 ${interaction.guild.name} System Status`)
       .setDescription(
-        `🔗 Antilink system: ${status1}\n 👍 Suggestions system: ${status2}\n 🎉 Giveaways system: ${status3}\n 📧 Autoroles system: ${status4}\n 🤖 Automod system: ${status5}\n 🤖☠️ Antibot system: ${status6}\n 🔒 Lockdown system: ${status7}\n 📨 Modlogs system: ${status8}\n ⏯️ YT Notification Config system: ${status9}\n 🗂️ Reaction Roles system: ${status10}\n 🎫 Tickets system: ${status11}\n 👋 Welcome system: ${status12}`
+        `🔗 Antilink system: ${status1}\n 👍 Suggestions system: ${status2}\n 🎉 Giveaways system: ${status3}\n 📧 Autoroles system: ${status4}\n 🤖 Automod system: ${status5}\n 🤖☠️ Antibot system: ${status6}\n 🔒 Lockdown system: ${status7}\n 📨 Modlogs system: ${status8}\n ⏯️ YT Notification Config system: ${status9}\n 🗂️ Reaction Roles system: ${status10}\n 🎫 Tickets system: ${status11}\n 👋 Welcome system: ${status12} \n 📩 Antispam system ${status13}`
       )
       .setFooter({ text: "online = 🟢 | offline = 🔴" })
       .setAuthor({
@@ -173,6 +177,6 @@ module.exports = {
     } else {
       embed.setThumbnail(client.user.displayAvatarURL());
     }
-    return await interaction.editReply({ embeds: [embed], ephemeral: true});
+    return await interaction.editReply({ embeds: [embed], ephemeral: true });
   },
 };

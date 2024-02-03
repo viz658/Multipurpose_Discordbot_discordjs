@@ -12,6 +12,7 @@ module.exports = {
   async execute(interaction) {
     if (interaction.isButton()) return;
     if (interaction.isChatInputCommand()) return;
+    if (interaction.isContextMenuCommand()) return;
     const modal = new ModalBuilder()
       .setTitle("Provide more information for your ticket")
       .setCustomId("ticketmodal");
@@ -46,20 +47,18 @@ module.exports = {
     let choices;
     if (interaction.isStringSelectMenu()) {
       if (interaction.customId === "ticketselect") {
-      choices = interaction.values;
+        choices = interaction.values;
 
-      const result = choices.join("");
+        const result = choices.join("");
 
-      const filter = { Guild: interaction.guild.id };
-      const update = { Ticket: result };
-      await ticketSchema
-        .updateOne(filter, update, {
-          new: true,
-        })
-        .then((value) => {
-        });
-      }
-      else {
+        const filter = { Guild: interaction.guild.id };
+        const update = { Ticket: result };
+        await ticketSchema
+          .updateOne(filter, update, {
+            new: true,
+          })
+          .then((value) => {});
+      } else {
         return;
       }
     }

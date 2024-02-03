@@ -5,9 +5,8 @@ const guildConfigurationSchema = new Schema({
     type: String,
     required: true,
   },
-  suggestionChannelIds: {
-    type: [String],
-    default: [],
+  suggestionChannelId: {
+    type: String,
   },
 });
 

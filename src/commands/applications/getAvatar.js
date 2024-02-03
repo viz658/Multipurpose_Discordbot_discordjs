@@ -6,7 +6,7 @@ module.exports = {
     .setDMPermission(false)
     .setType(ApplicationCommandType.User),
     category: "applications",
-  async execute(interaction, client) {
+  async execute(interaction) {
     await interaction.reply({
       content: `${interaction.targetUser.displayAvatarURL()}`,
     });

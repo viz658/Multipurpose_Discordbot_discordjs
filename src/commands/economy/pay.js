@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const Balance = require("../../schemas/balance");
+const currencySchema = require("../../schemas/customCurrency.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -23,6 +24,10 @@ module.exports = {
       interaction.user.id,
       interaction.guild.id
     );
+    let currdata = await currencySchema.findOne({
+      guildId: interaction.guild.id,
+    });
+    let currency = currdata ? currdata.Currency : "$";
     if (targetUser.bot || targetUser.id == interaction.user.id)
       return await interaction.reply({
         content: "You can't pay a bot or yourself!",
@@ -30,12 +35,12 @@ module.exports = {
       });
     else if (amount < 1.0)
       return await interaction.reply({
-        content: "You can't pay less than $1.00!",
+        content: `You can't pay less than ${currency}1.00!`,
         ephemeral: true,
       });
     else if (amount > userStoredBalance.balance)
       return await interaction.reply({
-        content: "You don't have enough money to pay that amount!",
+        content: `You don't have enough ${currency} to pay that amount!`,
         ephemeral: true,
       });
     const targetUserBalance = await client.fetchBalance(
@@ -62,19 +67,18 @@ module.exports = {
       }
     );
 
-
     const embed = new EmbedBuilder()
-      .setTitle(`${interaction.user.tag} paid ${targetUser.tag} $${amount}`)
+      .setTitle(`${interaction.user.tag} paid ${targetUser.tag} ${currency}${amount}`)
       .setColor("Blurple")
       .addFields({
         name: `${interaction.user.tag}'s Balance`,
-        value: `$${await client.toFixedNumber(
+        value: `${currency}${await client.toFixedNumber(
           userStoredBalance.balance - amount
         )}`,
       })
       .addFields({
         name: `${targetUser.tag}'s Balance`,
-        value: `$${await client.toFixedNumber(
+        value: `${currency}${await client.toFixedNumber(
           targetUserBalance.balance + amount
         )}`,
       })
@@ -84,9 +88,9 @@ module.exports = {
         iconURL: client.user.displayAvatarURL(),
       });
 
-      await interaction.reply({
-        embeds: [embed],
-        ephemeral: true,
-      });
+    await interaction.reply({
+      embeds: [embed],
+      ephemeral: true,
+    });
   },
 };
