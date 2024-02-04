@@ -60,9 +60,9 @@ module.exports = {
           }
         );
         const embed = new EmbedBuilder()
-          .setTitle(`You have claimed your daily of ${currency}${daily}`)
+          .setTitle(`You have claimed your daily of ${currency} ${daily}`)
           .setDescription(
-            `Your new balance is $${await client.toFixedNumber(
+            `Your new balance is ${currency} ${await client.toFixedNumber(
               userStoredBalance.balance + daily
             )}`
           )

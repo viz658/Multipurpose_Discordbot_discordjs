@@ -23,7 +23,7 @@ module.exports = {
     );
 
     if (bet < 1) { 
-      return interaction.reply({content: "You can't bet less than $1.", ephemeral: true});
+      return interaction.reply({content: `You can't bet less than ${currency} 1.`, ephemeral: true});
     }
     if (bet > userbalance.balance) {
       return interaction.reply({content: "You don't have enough money to bet that amount.", ephemeral: true});
@@ -54,7 +54,7 @@ module.exports = {
             balance: await client.toFixedNumber(userbalance.balance - bet),
           }
         );
-        return interaction.followUp(`You ${result.result} ${currency}${bet}.`);
+        return interaction.followUp(`You ${result.result} ${currency} ${bet}.`);
       } else {
         await Balance.findOneAndUpdate(
           {
@@ -65,7 +65,7 @@ module.exports = {
           }
         );
         return interaction.followUp(
-          `You ${result.result} ${currency}${bet}. Your slots were ${result.slots.join(", ")}.`
+          `You ${result.result} ${currency} ${bet}. Your slots were ${result.slots.join(", ")}.`
         );
       }
     });

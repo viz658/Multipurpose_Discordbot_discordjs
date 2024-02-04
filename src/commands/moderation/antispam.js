@@ -4,7 +4,7 @@ const {
   ChannelType,
   PermissionsBitField,
 } = require("discord.js");
-//const antispamdetectSchema = require("../../schemas/antispamdetect.js");
+const antispamdetectSchema = require("../../schemas/antispamdetect.js");
 const antispamsetupSchema = require("../../schemas/antispamsetup.js");
 
 module.exports = {
@@ -78,7 +78,10 @@ module.exports = {
             if (!data) {
                 await sendMessage("⚠️The antispam system is already disabled!⚠️", "Red");
             } else {
-                await antispamsetupSchema .findOneAndDelete({
+                await antispamsetupSchema .deleteMany({
+                Guild: interaction.guild.id,
+                });
+                await antispamdetectSchema.deleteMany({
                 Guild: interaction.guild.id,
                 });
                 await sendMessage("✅The antispam system is now disabled!", "Green");

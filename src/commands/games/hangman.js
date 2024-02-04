@@ -24,7 +24,6 @@ module.exports = {
         loseMessage: 'You lost! The word was **{word}**.',
         playerOnlyMessage: 'Only {player} can use these buttons.'
       });
-      
 
     Game.startGame();
   },

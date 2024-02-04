@@ -9,7 +9,7 @@ module.exports = (client) => {
     });
 
     if (!storedBalance) {
-      const storedBalance = await new Balance({
+      const storedBalance = new Balance({
         _id:  new Types.ObjectId(),
         userId: userId,
         guildId: guildId,

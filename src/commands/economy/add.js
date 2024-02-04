@@ -47,7 +47,7 @@ module.exports = {
     //if amount is 0
     if (amount < 1.0) {
       return await interaction.reply({
-        content: `You can't add less than ${currency}1.00!`,
+        content: `You can't add less than ${currency} 1.00!`,
         ephemeral: true,
       });
     }
@@ -73,7 +73,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor("Green")
       .setDescription(
-        `✅Added ${currency}${amount} to ${targetUser}'s balance successfully!`
+        `✅Added ${currency} ${amount} to ${targetUser}'s balance successfully!`
       );
     return await interaction.reply({
       embeds: [embed],

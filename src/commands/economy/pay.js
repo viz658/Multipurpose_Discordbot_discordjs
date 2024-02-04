@@ -35,7 +35,7 @@ module.exports = {
       });
     else if (amount < 1.0)
       return await interaction.reply({
-        content: `You can't pay less than ${currency}1.00!`,
+        content: `You can't pay less than ${currency} 1.00!`,
         ephemeral: true,
       });
     else if (amount > userStoredBalance.balance)
