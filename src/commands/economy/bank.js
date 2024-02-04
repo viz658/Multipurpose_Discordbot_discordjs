@@ -5,7 +5,7 @@ const currencySchema = require("../../schemas/customCurrency.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("bank")
-    .setDescription("Check your bank balance")
+    .setDescription("Deposit or withdraw money from your bank account")
     .setDMPermission(false)
     .addSubcommand((subcommand) =>
       subcommand

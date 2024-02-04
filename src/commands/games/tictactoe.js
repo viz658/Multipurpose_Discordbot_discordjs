@@ -6,7 +6,7 @@ const Balance = require("../../schemas/balance");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("tictactoe")
-    .setDescription("Play a game of tic tac toe")
+    .setDescription("Play a game of tic tac toe, can wager money")
     .setDMPermission(false)
     .addUserOption((option) =>
       option

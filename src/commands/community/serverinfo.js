@@ -1,9 +1,9 @@
-const { SlashCommandBuilder, EmbedBuilder, ChannelType, escapeNumberedList } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ChannelType} = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('advanced-serverinfo')
+    .setName('server-info')
     .setDMPermission(false)
-    .setDescription('View advanced server info'),
+    .setDescription('View server info'),
     category: 'community',
     async execute(interaction) {
 
@@ -50,20 +50,20 @@ module.exports = {
         .setThumbnail(icon)
         .setAuthor({ name: name, iconURL: icon })
         .setDescription(`${description}`)
-        .setFooter({ text: `Server ID: ${id}`})
+        .setFooter({ text: `ID: ${id}`})
         .setTimestamp()
-        .addFields({ name: "» Date Created", value: `<t:${parseInt(createdTimestamp / 1000 )}:R>`, inline: true})
-        .addFields({ name: "» Server Owner", value: `<@${ownerId}>`, inline: true})
+        .addFields({ name: "» Created", value: `<t:${parseInt(createdTimestamp / 1000 )}:R>`, inline: true})
+        .addFields({ name: "» Owner", value: `<@${ownerId}>`, inline: true})
         .addFields({ name: "» Vanity URL", value: `${vanity}`, inline: true})
-        .addFields({ name: "» Member Count", value: `${memberCount - botCount}`, inline: true})
-        .addFields({ name: "» Bot Count", value: `${botCount}`, inline: true})
-        .addFields({ name: "» Emoji Count", value: `${emojis}`, inline: true})
+        .addFields({ name: "» Memberst", value: `${memberCount - botCount}`, inline: true})
+        .addFields({ name: "» Bots", value: `${botCount}`, inline: true})
+        .addFields({ name: "» Emojis", value: `${emojis}`, inline: true})
         .addFields({ name: "» Animated Emojis", value: `${animated}`, inline: true})
-        .addFields({ name: "» Sticker Count", value: `${sticker}`, inline: true})
-        .addFields({ name: `» Role Count`, value: `${roles}`, inline: true})
+        .addFields({ name: "» Stickers", value: `${sticker}`, inline: true})
+        .addFields({ name: `» Roles`, value: `${roles}`, inline: true})
         .addFields({ name: `» Highest Role`, value: `${highestrole}`, inline: true})
         .addFields({ name: "» Verification Level", value: `${baseVerification}`, inline: true})
-        .addFields({ name: "» Boost Count", value: `${guild.premiumSubscriptionCount}`, inline: true})
+        .addFields({ name: "» Boosts", value: `${guild.premiumSubscriptionCount}`, inline: true})
         .addFields({ name: "» Channels", value: `Total: ${channels} | Categories: ${category} | Text:  ${text} | Voice: ${voice} | Announcements: ${annnouncement} | Stages: | ${stage} | Forums: ${forum} | Threads: ${thread}`, inline: false})
         .addFields({ name: `» Features`, value: `\`\`\`${features}\`\`\``})
     

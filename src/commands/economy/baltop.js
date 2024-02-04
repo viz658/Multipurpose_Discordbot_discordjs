@@ -33,7 +33,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor("Green")
       .setDescription(
-        `💰 **${interaction.guild.name} Economy Leaderboard** 💵 \n\n${string}`
+        `💰 **${interaction.guild.name} Balance Leaderboard** ${currency} \n\n${string}`
       )
       .setTimestamp()
       .setFooter({
