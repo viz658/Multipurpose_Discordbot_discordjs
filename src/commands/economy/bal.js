@@ -30,6 +30,7 @@ module.exports = {
       let total = await client.toFixedNumber(storedBalance.balance + storedBalance.bank);
       const embed = new EmbedBuilder()
         .setTitle(`💳 ${target.tag}'s economy info`) 
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
         .setColor("Green")
         .setTimestamp()
         .setAuthor({ name: `${target.tag}`, iconURL: `${target.displayAvatarURL()}`,})

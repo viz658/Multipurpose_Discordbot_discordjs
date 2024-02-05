@@ -88,7 +88,7 @@ module.exports = {
         serverbank.bank = await client.toFixedNumber(serverbank.bank + interest);
         await serverbank.save();
       });
-    }, 1000 * 60 * 60 * 6); //rn 6 hours // 1000 * 60 * 60 * 24, 24 hours
+    }, 1000 * 60 * 60 * 6 ); //rn 6 hours // 1000 * 60 * 60 * 6, 6 hours
     //
 
   },

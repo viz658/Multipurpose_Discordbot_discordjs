@@ -28,7 +28,7 @@ module.exports = {
       .setDescription(`The server bank is at ${currency} ${serverbank.bank}.`)
       .setColor("Green")
       .setFooter({
-        text: "Maybe time for a heist 👀",
+        text: "Maybe time for a /heist 👀",
         iconURL: client.user.displayAvatarURL(),
       });
       if (interaction.guild.iconURL()) {

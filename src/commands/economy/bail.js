@@ -37,7 +37,7 @@ module.exports = {
     const bailCost = userBalance.bailcost;
     if (payerbalance.balance < bailCost) {
       return await interaction.reply({
-        content: `You do not have enough money to bail ${user.tag} out of jail! you need ${currency} ${bailCost} to bail them out.}`,
+        content: `You do not have enough money to bail ${user.tag} out of jail! you need ${currency} ${bailCost} to bail them out.`,
         ephemeral: true,
       });
     }
@@ -67,6 +67,7 @@ module.exports = {
     );
     const embed = new EmbedBuilder()
       .setColor("Green")
+      .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL() })
       .setDescription(`🔓 ${user.tag} has been released from jail!`)
       .setFooter({
         text: "They are now free to use economy commands.",
@@ -77,7 +78,6 @@ module.exports = {
     }
     await interaction.reply({
       embeds: [embed],
-      ephemeral: true,
     });
   },
 };

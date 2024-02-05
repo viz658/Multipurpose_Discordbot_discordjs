@@ -89,6 +89,7 @@ module.exports = {
       );
       const embed = new EmbedBuilder()
         .setTitle("💰 Robbery successful")
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
         .setColor("Green")
         .setTimestamp()
         .setDescription(
@@ -129,6 +130,7 @@ module.exports = {
       await client.toFixedNumber(punishment);
       const embed = new EmbedBuilder()
         .setTitle("🚓Robbery failed")
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
         .setColor("Red")
         .setTimestamp()
         .setDescription(

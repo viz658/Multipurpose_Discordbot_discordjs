@@ -82,6 +82,7 @@ module.exports = {
       );
       const embed = new EmbedBuilder()
         .setTitle("🏦Bank Deposit")
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
         .setColor("Green")
         .setFooter({
           text: client.user.tag,
@@ -118,6 +119,7 @@ module.exports = {
       );
       const embed = new EmbedBuilder()
         .setTitle("🏦Bank Withdrawal")
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
         .setColor("Green")
         .setFooter({
           text: client.user.tag,
@@ -149,6 +151,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle("🏦Bank Deposit")
         .setColor("Green")
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
         .setFooter({
           text: client.user.tag,
           iconURL: client.user.displayAvatarURL(),
@@ -179,6 +182,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle("🏦Bank Withdrawal")
         .setColor("Green")
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
         .setFooter({
           text: client.user.tag,
           iconURL: client.user.displayAvatarURL(),

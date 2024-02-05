@@ -49,6 +49,7 @@ module.exports = {
       const currentDate = new Date().toDateString();
       if (lastDailyDate === currentDate) {
         const embed = new EmbedBuilder()
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
           .setDescription(
             `⚠️You have already claimed your daily ${currency} Please wait until tomorrow.⚠️`
           )
@@ -79,7 +80,6 @@ module.exports = {
           .setColor("Green");
         await interaction.reply({
           embeds: [embed],
-          ephemeral: true,
         });
       }
     }

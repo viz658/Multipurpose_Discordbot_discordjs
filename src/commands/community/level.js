@@ -38,7 +38,6 @@ module.exports = {
       if (!metadata) {
         await interaction.reply({content: "Please make sure the server's level leaderboard background is a valid image URL and not a redirect URL", ephemeral: true});
         return;
-        return;
       }
       background = await sharp(imageBuffer).toBuffer();
     }

@@ -79,6 +79,7 @@ module.exports = {
     );
     const embed = new EmbedBuilder()
       .setColor("Red")
+      .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL() })
       .setDescription(
         `🚓 ${user.tag} has been arrested and sent to jail! ${emoji} \n Their bail is set to ${currency} ${bail}`
       )

@@ -53,7 +53,7 @@ module.exports = {
     });
     const robberemoji = "<:9098robber:1203937596170829824>";
     const handcuffsemoji = "<:8831handcuffs:1203938626300411934>";
-    const jailemoji = "<a:4963pepeprison:1203940148828700703>";
+    const jailemoji = "<:1887_Jail_pepe:1203964036874764308>";
     const rng = Math.random();
     collector.on("collect", async (m) => {
       if (m.content.toLowerCase() === "yes") {
@@ -89,6 +89,7 @@ module.exports = {
           );
           const embed = new EmbedBuilder()
             .setTitle(`💰 Heist Successful! 💰`)
+            .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
             .setColor("Green")
             .setDescription(
               `${robberemoji} You have successfully robbed the server bank and got away with ${currency} ${heistamount}!`
@@ -129,6 +130,7 @@ module.exports = {
           );
           const embed = new EmbedBuilder()
             .setTitle(`🚓🚨 Heist Failed! 🚨🚓`)
+            .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
             .setColor("Red")
             .setDescription(
               `👮 ${handcuffsemoji} ${robberemoji} You have been caught trying to rob the server bank and have been fined ${currency} ${fine}!\n You have been sent to jail! ${jailemoji}`
