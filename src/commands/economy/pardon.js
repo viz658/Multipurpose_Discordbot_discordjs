@@ -26,7 +26,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setColor("Red")
         .setDescription(
-          "⚠️You do not have the required permissions to use this command.⚠️"
+          "⚠️You can not pardon a jailed user.⚠️"
         );
       return await interaction.reply({
         embeds: [embed],

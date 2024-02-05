@@ -89,6 +89,10 @@ module.exports = {
         .setDescription(
           `✅ Configured ${targetChannel} to receive welcome messages.`
         );
+      if (customimageURL) {
+        embed.setThumbnail(customimageURL);
+        embed.setFooter({text: "If your image is not showing in the thumbnail the link you gave may be a redirect URL isntead of an image URL."});
+      }
       newWelcomeChannel
         .save()
         .then(() => {

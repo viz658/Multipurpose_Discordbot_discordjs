@@ -22,7 +22,7 @@ module.exports = {
             var guildBalances = await Promise.all(
                 members.map(async (member) => {
                     const user = await client.fetchBalance(member.id, interaction.guild.id);
-                    return { user: member.user.id, total: user.balance + user.bank };
+                    return { user: member.user.id, total: await client.toFixedNumber(user.balance + user.bank) };
                 })
             );
             let currdata = await currencySchema.findOne({

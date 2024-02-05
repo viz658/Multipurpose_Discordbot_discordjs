@@ -1,7 +1,9 @@
 const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
-const calculateLevelXp = require("../../functions/tools/levelxpcalc");
+const leaderboardbackgroundSchema = require("../../schemas/LeaderboardBackground.js");
 const Level = require("../../schemas/levelxp");
 const { Font, LeaderboardBuilder } = require("canvacord");
+const fetch = require("node-fetch");
+const  sharp = require("sharp");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -10,6 +12,25 @@ module.exports = {
     .setDMPermission(false),
   category: "community",
   async execute(interaction, client) {
+    const leaderboardbgdata = await leaderboardbackgroundSchema.findOne({
+      guildId: interaction.guild.id,
+    });
+    let background = "";
+    if (!leaderboardbgdata) {
+      background = "src\\assets\\uqy8U9A.jpg";
+    } else {
+      const response = await fetch(leaderboardbgdata.leaderboardurl);
+      if (!response.ok) throw new Error("Failed to download image");
+      const imageBuffer = await response.buffer();
+      const metadata = await sharp(imageBuffer)
+        .metadata()
+        .catch((err) => console.error(err));
+      if (!metadata) {
+        await interaction.reply({content: "Please make sure the server's level background is a valid image URL and not a redirect URL", ephemeral: true});
+        return;
+      }
+      background = await sharp(imageBuffer).toBuffer();
+    }
     let allLevels = await Level.find({ guildId: interaction.guild.id }).select(
       "-_id userId level xp"
     );
@@ -100,7 +121,7 @@ module.exports = {
           rank: 5,
         },
       ])
-      .setBackground("src\\assets\\uqy8U9A.jpg");
+      .setBackground(background);
     const image = await lb.build({ format: "png" });
     const attachment = new AttachmentBuilder(image);
     await interaction.reply({ files: [attachment] });

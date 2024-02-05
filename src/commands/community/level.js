@@ -3,6 +3,9 @@ const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const calculateLevelXp = require("../../functions/tools/levelxpcalc");
 const Level = require("../../schemas/levelxp");
 const { Font, RankCardBuilder } = require("canvacord");
+const levelbackgroundSchema = require("../../schemas/Levelbackground.js");
+const fetch = require("node-fetch");
+const sharp = require("sharp");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -19,7 +22,26 @@ module.exports = {
     const mentionedUserId = interaction.options.get("user")?.value;
     const targetUserId = mentionedUserId || interaction.member.id;
     const targetUserObj = await interaction.guild.members.fetch(targetUserId);
-   
+    const lbgdata = await levelbackgroundSchema.findOne({
+      guildId: interaction.guild.id,
+    });
+    let background = "";
+    if (!lbgdata) {
+      background = "src\\assets\\level.png";
+    } else {
+      const response = await fetch(lbgdata.levelurl);
+      if (!response.ok) throw new Error("Failed to download image");
+      const imageBuffer = await response.buffer();
+      const metadata = await sharp(imageBuffer)
+        .metadata()
+        .catch((err) => console.error(err));
+      if (!metadata) {
+        await interaction.reply({content: "Please make sure the server's level leaderboard background is a valid image URL and not a redirect URL", ephemeral: true});
+        return;
+        return;
+      }
+      background = await sharp(imageBuffer).toBuffer();
+    }
     //check if targetuser status is offline
     if (!targetUserObj.presence) {
       return await interaction.reply({
@@ -62,7 +84,6 @@ module.exports = {
     let currentRank =
       allLevels.findIndex((lvl) => lvl.userId === targetUserId) + 1;
     Font.loadDefault();
-
     const rank = new RankCardBuilder()
       .setAvatar(targetUserObj.user.displayAvatarURL({ size: 256 }))
       .setRank(currentRank)
@@ -72,7 +93,7 @@ module.exports = {
       .setStatus(targetUserObj.presence.status)
       .setUsername(targetUserObj.user.username)
       .setOverlay(50)
-      .setBackground("src\\assets\\level.png");
+      .setBackground(background);
     const data = await rank.build({ format: "png" });
     const attachment = new AttachmentBuilder(data);
     await interaction.reply({ files: [attachment] });
