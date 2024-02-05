@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const Balance = require("../../schemas/balance");
 const currencySchema = require("../../schemas/customCurrency.js");
 
 module.exports = {
@@ -9,6 +8,16 @@ module.exports = {
         .setDMPermission(false),
     category: "economy",
     async execute(interaction, client) {
+        const userbalance = await client.fetchBalance(
+            interaction.user.id,
+            interaction.guild.id
+          );
+          if(userbalance.inJail) {
+            return await interaction.reply({
+              content: "You cannot access economy commands while in jail!",
+              ephemeral: true,
+            });
+          }
         var members = await interaction.guild.members.fetch();
         var guildBalances = await Promise.all(
             members.map(async (member) => {

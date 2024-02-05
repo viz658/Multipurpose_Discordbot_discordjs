@@ -8,6 +8,16 @@ module.exports = {
     .setDMPermission(false),
   category: "economy",
   async execute(interaction, client) {
+    const userbalance = await client.fetchBalance(
+      interaction.user.id,
+      interaction.guild.id
+    );
+    if(userbalance.inJail) {
+      return await interaction.reply({
+        content: "You cannot access economy commands while in jail!",
+        ephemeral: true,
+      });
+    }
     var members = await interaction.guild.members.fetch();
     var guildBalances = await Promise.all(
       members.map(async (member) => {
@@ -19,7 +29,7 @@ module.exports = {
         Guild: interaction.guild.id,
     });
     let currency = currdata ? currdata.Currency : "$";
-
+    
     guildBalances.sort((a, b) => b.balance - a.balance);
     var output = guildBalances.slice(0, 10);
     var string = "";

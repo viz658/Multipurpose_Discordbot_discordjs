@@ -27,17 +27,23 @@ module.exports = {
         ephemeral: true,
       });
     } else {
+      let total = await client.toFixedNumber(storedBalance.balance + storedBalance.bank);
       const embed = new EmbedBuilder()
-        .setTitle(`${target.tag}'s economy info`) 
+        .setTitle(`💳 ${target.tag}'s economy info`) 
         .setColor("Green")
         .setTimestamp()
+        .setAuthor({ name: `${target.tag}`, iconURL: `${target.displayAvatarURL()}`,})
         .addFields({
-          name: `Balance`,
+          name: `Wallet`,
           value: `${currency} ${storedBalance.balance}`,
         })
         .addFields({
           name: `Bank`,
           value: `${currency} ${storedBalance.bank}`,
+        })
+        .addFields({
+          name: `Total`,
+          value: `${currency} ${total}`,
         })
         .setFooter({
           text: client.user.tag,

@@ -54,7 +54,7 @@ module.exports = {
     if (bet > userbalance.balance || bet > opponentbalance.balance) {
       return interaction.reply({
         content:
-          "You or the opponent don't have enough money to bet that amount.",
+          `You or the opponent don't have enough ${currency} in your wallet to bet that amount.`,
         ephemeral: true,
       });
     }

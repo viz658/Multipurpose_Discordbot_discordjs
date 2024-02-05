@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require("discord.js");
 const { Slots } = require("discord-gamecord");
 const currencySchema = require("../../schemas/customCurrency.js");
 const Balance = require("../../schemas/balance");
+const serverBank = require("../../schemas/ServerBank.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,17 +22,24 @@ module.exports = {
       interaction.user.id,
       interaction.guild.id
     );
-
-    if (bet < 1) { 
-      return interaction.reply({content: `You can't bet less than ${currency} 1.`, ephemeral: true});
-    }
-    if (bet > userbalance.balance) {
-      return interaction.reply({content: "You don't have enough money to bet that amount.", ephemeral: true});
-    }
+    const serverbank = await client.fetchBank(interaction.guild.id);
     let currdata = await currencySchema.findOne({
       Guild: interaction.guild.id,
     });
     let currency = currdata ? currdata.Currency : "$";
+    if (bet < 1) {
+      return interaction.reply({
+        content: `You can't bet less than ${currency} 1.`,
+        ephemeral: true,
+      });
+    }
+    if (bet > userbalance.balance) {
+      return interaction.reply({
+        content: `You don't have enough ${currency} in your wallet to bet that amount.`,
+        ephemeral: true,
+      });
+    }
+
     const Game = new Slots({
       message: interaction,
       isSlashGame: true,
@@ -54,6 +62,15 @@ module.exports = {
             balance: await client.toFixedNumber(userbalance.balance - bet),
           }
         );
+        await serverBank.findOneAndUpdate(
+          {
+            _id: serverbank._id,
+          },
+          {
+            bank: await client.toFixedNumber(serverbank.bank + bet),
+          }
+        );
+
         return interaction.followUp(`You ${result.result} ${currency} ${bet}.`);
       } else {
         await Balance.findOneAndUpdate(
@@ -65,7 +82,9 @@ module.exports = {
           }
         );
         return interaction.followUp(
-          `You ${result.result} ${currency} ${bet}. Your slots were ${result.slots.join(", ")}.`
+          `You ${
+            result.result
+          } ${currency} ${bet}. Your slots were ${result.slots.join(", ")}.`
         );
       }
     });

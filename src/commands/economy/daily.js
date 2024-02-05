@@ -9,6 +9,16 @@ module.exports = {
     .setDMPermission(false),
   category: "economy",
   async execute(interaction, client) {
+    const userbalance = await client.fetchBalance(
+      interaction.user.id,
+      interaction.guild.id
+    );
+    if(userbalance.inJail) {
+      return await interaction.reply({
+        content: "You cannot access economy commands while in jail!",
+        ephemeral: true,
+      });
+    }
     let daily = Math.floor(Math.random() * (1000 - 150 + 1) + 150);
     const userStoredBalance = await client.fetchBalance(
       interaction.user.id,

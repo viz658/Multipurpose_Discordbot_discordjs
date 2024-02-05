@@ -16,6 +16,16 @@ module.exports = {
   description: "Reset the level of a user",
   async execute(interaction, client) {
     const member = await interaction.guild.members.fetch(interaction.targetId);
+    //check if target is bot
+    if (member.user.bot) {
+      const embed = new EmbedBuilder()
+        .setColor("Red")
+        .setDescription("⚠️You can't reset the level of a bot!⚠️");
+      return await interaction.reply({
+        embeds: [embed],
+        ephemeral: true,
+      });
+    }
     const query = {
       guildId: interaction.guild.id,
       userId: interaction.targetId,

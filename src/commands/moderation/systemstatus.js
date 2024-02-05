@@ -39,8 +39,11 @@ module.exports = {
       .setDescription("🔃Retrieving system status...")
       .setColor("Blue");
     await interaction.reply({ embeds: [loading], ephemeral: true });
-    let online = "🟢";
-    let offline = "🔴";
+    
+    // let online = "🟢";
+    // let offline = "🔴";
+    let online = "<a:onlineload:1203923619877486592>";
+    let offline = "<a:offlineload:1203923676400193576>";
     let status1 = "";
     let status2 = "";
     let status3 = "";

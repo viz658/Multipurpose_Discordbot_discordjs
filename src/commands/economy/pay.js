@@ -18,6 +18,16 @@ module.exports = {
     ),
   category: "economy",
   async execute(interaction, client) {
+    const userbalance = await client.fetchBalance(
+      interaction.user.id,
+      interaction.guild.id
+    );
+    if(userbalance.inJail) {
+      return await interaction.reply({
+        content: "You cannot access economy commands while in jail!",
+        ephemeral: true,
+      });
+    }
     const targetUser = interaction.options.getUser("user");
     let amount = interaction.options.getNumber("amount");
     const userStoredBalance = await client.fetchBalance(
@@ -40,7 +50,7 @@ module.exports = {
       });
     else if (amount > userStoredBalance.balance)
       return await interaction.reply({
-        content: `You don't have enough ${currency} to pay that amount!`,
+        content: `You don't have enough ${currency} in your wallet to pay that amount!`,
         ephemeral: true,
       });
     const targetUserBalance = await client.fetchBalance(

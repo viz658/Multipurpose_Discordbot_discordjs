@@ -22,6 +22,7 @@ const {
       ),
     category: "economy",
     async execute(interaction, client) {
+      
       if (
         !interaction.member.permissions.has(
           PermissionsBitField.Flags.Administrator

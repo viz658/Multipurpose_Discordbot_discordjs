@@ -73,7 +73,6 @@ module.exports = {
       .setUsername(targetUserObj.user.username)
       .setOverlay(50)
       .setBackground("src\\assets\\level.png");
-      
     const data = await rank.build({ format: "png" });
     const attachment = new AttachmentBuilder(data);
     await interaction.reply({ files: [attachment] });

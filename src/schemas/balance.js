@@ -10,6 +10,8 @@ const balanceSchema = new Schema({
     required: true,
   },
   bank: { type: Number, default: 0 },
+  inJail: { type: Boolean, default: false },
+  bailcost: { type: Number, default: 10000 },
 
 });
 

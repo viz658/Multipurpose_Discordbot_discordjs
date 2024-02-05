@@ -5,7 +5,9 @@ const currencySchema = require("../../schemas/customCurrency.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("bank")
-    .setDescription("Deposit or withdraw money from your bank account")
+    .setDescription(
+      "Deposit or withdraw money from your bank account-benefit from compound interest!"
+    )
     .setDMPermission(false)
     .addSubcommand((subcommand) =>
       subcommand
@@ -45,6 +47,12 @@ module.exports = {
       interaction.user.id,
       interaction.guild.id
     );
+    if(userStoredBalance.inJail) {
+      return await interaction.reply({
+        content: "You cannot access economy commands while in jail!",
+        ephemeral: true,
+      });
+    }
     const currdata = await currencySchema.findOne({
       Guild: interaction.guild.id,
     });
@@ -80,7 +88,7 @@ module.exports = {
           iconURL: client.user.displayAvatarURL(),
         })
         .setDescription(
-          `You have deposited ${currency} ${amount} into your bank account!`
+          `You have deposited ${currency} ${amount} into your bank account!\n You will be rewarded with interest rate depending on your /level!`
         );
       return await interaction.reply({
         embeds: [embed],
@@ -146,7 +154,7 @@ module.exports = {
           iconURL: client.user.displayAvatarURL(),
         })
         .setDescription(
-          `You have deposited ${currency} ${userStoredBalance.balance} into your bank account!`
+          `You have deposited ${currency} ${userStoredBalance.balance} into your bank account! \n You will be rewarded with interest rate depending on your /level!`
         );
       return await interaction.reply({
         embeds: [embed],

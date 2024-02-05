@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const Balance = require("../../schemas/balance");
 const currencySchema = require("../../schemas/customCurrency.js");
+const serverBank = require("../../schemas/ServerBank.js");
 
 const cooldowns = new Map();
 
@@ -14,8 +15,19 @@ module.exports = {
     ),
   category: "economy",
   async execute(interaction, client) {
+    const userbalance = await client.fetchBalance(
+      interaction.user.id,
+      interaction.guild.id
+    );
+    if(userbalance.inJail) {
+      return await interaction.reply({
+        content: "You cannot access economy commands while in jail!",
+        ephemeral: true,
+      });
+    }
     const targetUser = interaction.options.getUser("user");
     const userId = interaction.user.id;
+    const guildBank = await client.fetchBank(interaction.guild.id);
     if (cooldowns.has(userId)) {
         const expirationTime = cooldowns.get(userId) + 1000 * 60 * 60;
     const timeLeft = (expirationTime - Date.now()) / 1000 / 60;
@@ -106,6 +118,15 @@ module.exports = {
           ),
         }
       );
+      await serverBank.findOneAndUpdate(
+        {
+          _id: guildBank._id,
+        },
+        {
+          bank: await client.toFixedNumber(guildBank.bank + punishment),
+        }
+      );
+      await client.toFixedNumber(punishment);
       const embed = new EmbedBuilder()
         .setTitle("🚓Robbery failed")
         .setColor("Red")

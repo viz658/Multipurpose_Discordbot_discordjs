@@ -1,4 +1,4 @@
-const { ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js");
+const { ButtonBuilder, ActionRowBuilder, ButtonStyle, AttachmentBuilder } = require("discord.js");
 const fs = require("fs");
 const { musicCard } = require("musicard");
 
@@ -76,11 +76,12 @@ module.exports = (client) => {
       shuffle,
       repeat
     );
+    const attachment = new AttachmentBuilder(cardBuffer);
     queue.textChannel
       .send({
         //content: `🎶 Now Playing: ${song.name}Requested by: ${song.user.username}`,
         components: [row1, row2],
-        files: [`musicard.png`], // Send the saved music card image as a file
+        files: [attachment], // Send the saved music card image as a file
       })
       .then((message) => {
         queue.currentMessage = message;
