@@ -6,6 +6,7 @@ var cnt = 0;
 module.exports = {
   name: "messageCreate",
   async execute(message,client) {
+    if (message.author.bot) return;
     if (!message.guild) return;
 
     let spamdetect = await antispamdetectSchema.findOne({

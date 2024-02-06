@@ -3,7 +3,6 @@ const {
   PermissionFlagsBits,
   EmbedBuilder,
 } = require("discord.js");
-const { string } = require("mathjs");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -56,9 +55,9 @@ module.exports = {
         content: `${string}`,
       })
       .catch(() => console.log("User's DM's are off."));
-
+      let timeouttime = time === null ? null : time * 60 * 1000;
     await member
-      .timeout(time == null ? null : time * 60 * 1000, reason)
+      .timeout(timeouttime , reason)
       .catch(console.error);
     const embed = new EmbedBuilder()
       .setColor("Green")

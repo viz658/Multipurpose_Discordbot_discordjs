@@ -333,7 +333,12 @@ client.on("messageCreate", async (message) => {
 
   for (let i = 0; i < responseMessage.length; i += chunkSizeLimit) {
     const chunk = responseMessage.substring(i, i + chunkSizeLimit);
-
-    await message.reply(chunk);
+    try {
+      await message.reply(chunk);
+    } catch (error) {
+      console.error('Error replying to message may have been deleted:', error);
+      // Break the loop as the message has been deleted and we can't reply to it
+      break;
+    }
   }
 });
