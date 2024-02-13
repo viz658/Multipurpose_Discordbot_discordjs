@@ -36,6 +36,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("start")
     .setDescription("Starts the math process")
+    .setDefaultMemberPermissions(0)
     .setDMPermission(false),
   category: "community",
   async execute(interaction, client) {

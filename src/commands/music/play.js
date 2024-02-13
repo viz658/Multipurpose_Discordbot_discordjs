@@ -12,6 +12,7 @@ module.exports = {
     ),
   category: "music",
   async execute(interaction, client) {
+    await interaction.deferReply();
     const { options, member, guild, channel } = interaction;
 
     const query = options.getString("query");
@@ -25,7 +26,7 @@ module.exports = {
         .setDescription(
           "⚠️You must be in a voice channel to execute music commands.⚠️"
         );
-      return interaction.reply({ embeds: [embed], ephemeral: true });
+      return interaction.editReply({ embeds: [embed], ephemeral: true });
     }
 
     if (!member.voice.channelId == guild.members.me.voice.channelId) {
@@ -34,7 +35,7 @@ module.exports = {
         .setDescription(
           `⚠️You can't use the music player as it is already active in <#${guild.members.me.voice.channelId}>⚠️`
         );
-      return interaction.reply({ embeds: [embed], ephemeral: true });
+      return interaction.editReply({ embeds: [embed], ephemeral: true });
     }
     let play = true;
       await client.distube.play(voiceChannel, query, {
@@ -44,11 +45,11 @@ module.exports = {
         console.log(err); //private playlist or too long of a video
         embed.setColor("Red").setDescription("⛔ | Something went wrong... Make sure the song is not private or too long.");
         play = false;
-        return await interaction.reply({ embeds: [embed], ephemeral: true });
+        return await interaction.editReply({ embeds: [embed], ephemeral: true });
       });
       if(play) {
       embed.setColor("Green").setDescription(`🎶 | Request received. Joining <#${guild.members.me.voice.channelId}>`);
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [embed],
         ephemeral: true,
       });

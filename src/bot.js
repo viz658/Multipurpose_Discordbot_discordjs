@@ -78,7 +78,7 @@ client.distube.on("error", (e) => {
   console.error(e);
 });
 client.distube.on("empty", (queue) => {
-  //queue.textChannel.send("⛔ Voice channel is empty! Leaving the channel...");
+  queue.textChannel.send("⛔ Voice channel is empty! Leaving the channel...");
   if (queue.currentMessage) {
     queue.currentMessage.delete().catch(console.error);
     queue.currentMessage = undefined;
@@ -93,6 +93,7 @@ client.distube.on("finish", (queue) => {
   });
   queue.connection.disconnect();
 });
+
 //giveaways
 const GiveawaysManager = require("./giveaways.js");
 client.giveawayManager = new GiveawaysManager(client, {

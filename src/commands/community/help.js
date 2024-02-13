@@ -203,6 +203,7 @@ module.exports = {
     const collector = message.createMessageComponentCollector();
 
     collector.on("collect", async (i) => {
+      if (!i.isStringSelectMenu()) return;
       if (i.values[0] === "Help & resources") {
         if (i.user.id !== interaction.user.id) {
           return await i.reply({

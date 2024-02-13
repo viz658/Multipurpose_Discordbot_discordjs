@@ -4,6 +4,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("stop")
     .setDescription("Stops the math process")
+    .setDefaultMemberPermissions(0)
     .setDMPermission(false),
   category: "community",
   async execute(interaction, client) {

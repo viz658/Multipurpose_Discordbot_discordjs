@@ -19,6 +19,7 @@ module.exports = {
     ),
   category: "community",
   async execute(interaction) {
+    await interaction.deferReply();
     const mentionedUserId = interaction.options.get("user")?.value;
     const targetUserId = mentionedUserId || interaction.member.id;
     const targetUserObj = await interaction.guild.members.fetch(targetUserId);
@@ -36,14 +37,14 @@ module.exports = {
         .metadata()
         .catch((err) => console.error(err));
       if (!metadata) {
-        await interaction.reply({content: "Please make sure the server's level leaderboard background is a valid image URL and not a redirect URL", ephemeral: true});
+        await interaction.editReply({content: "Please make sure the server's level leaderboard background is a valid image URL and not a redirect URL", ephemeral: true});
         return;
       }
       background = await sharp(imageBuffer).toBuffer();
     }
     //check if targetuser status is offline
     if (!targetUserObj.presence) {
-      return await interaction.reply({
+      return await interaction.editReply({
         content: `${
           mentionedUserId
             ? `Unable to view level, ${targetUserObj.user.tag} is currently offline.`
@@ -58,7 +59,7 @@ module.exports = {
     });
 
     if (!fetchedLevel) {
-      return await interaction.reply({
+      return await interaction.editReply({
         content: `${
           mentionedUserId
             ? `${targetUserObj.user.tag} doesn't have any levels yet. Try again when they chat a little more.`
@@ -95,6 +96,6 @@ module.exports = {
       .setBackground(background);
     const data = await rank.build({ format: "png" });
     const attachment = new AttachmentBuilder(data);
-    await interaction.reply({ files: [attachment] });
+    await interaction.editReply({ files: [attachment] });
   },
 };

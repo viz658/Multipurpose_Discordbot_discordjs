@@ -7,7 +7,7 @@ module.exports = (client) => {
   client.sendMusicCard = async (queue, song) => {
     const card = new musicCard()
       .setName(song.name)
-      .setAuthor(`By ${song.user.username}`)
+      .setAuthor(`From ${song.user.username}`)
       .setColor("auto")
       .setTheme("classic")
       .setBrightness(50)
@@ -18,7 +18,7 @@ module.exports = (client) => {
 
     // Build the card and save it as musicard.png
     const cardBuffer = await card.build();
-    fs.writeFileSync(`musicard.png`, cardBuffer);
+   // fs.writeFileSync(`musicard.png`, cardBuffer);
 
     // Create the button components
     const pauseButton = new ButtonBuilder()
@@ -79,7 +79,7 @@ module.exports = (client) => {
     const attachment = new AttachmentBuilder(cardBuffer);
     queue.textChannel
       .send({
-        //content: `🎶 Now Playing: ${song.name}Requested by: ${song.user.username}`,
+        content: `🎶 Now Playing: ${song.name}Requested by: ${song.user.username}`,
         components: [row1, row2],
         files: [attachment], // Send the saved music card image as a file
       })

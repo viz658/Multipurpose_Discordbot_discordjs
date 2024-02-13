@@ -12,6 +12,7 @@ module.exports = {
     .setDMPermission(false),
   category: "community",
   async execute(interaction, client) {
+    await interaction.deferReply();
     const leaderboardbgdata = await leaderboardbackgroundSchema.findOne({
       guildId: interaction.guild.id,
     });
@@ -26,7 +27,7 @@ module.exports = {
         .metadata()
         .catch((err) => console.error(err));
       if (!metadata) {
-        await interaction.reply({content: "Please make sure the server's level background is a valid image URL and not a redirect URL", ephemeral: true});
+        await interaction.editReply({content: "Please make sure the server's level background is a valid image URL and not a redirect URL", ephemeral: true});
         return;
       }
       background = await sharp(imageBuffer).toBuffer();
@@ -124,6 +125,6 @@ module.exports = {
       .setBackground(background);
     const image = await lb.build({ format: "png" });
     const attachment = new AttachmentBuilder(image);
-    await interaction.reply({ files: [attachment] });
+    await interaction.editReply({ files: [attachment] });
   },
 };
