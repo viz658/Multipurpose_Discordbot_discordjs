@@ -51,7 +51,6 @@ module.exports = {
       embed.setColor("Green").setDescription(`🎶 | Request received. Joining <#${guild.members.me.voice.channelId}>`);
       await interaction.editReply({
         embeds: [embed],
-        ephemeral: true,
       });
     }
   },

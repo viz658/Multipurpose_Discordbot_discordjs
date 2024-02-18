@@ -78,7 +78,7 @@ client.distube.on("error", (e) => {
   console.error(e);
 });
 client.distube.on("empty", (queue) => {
-  queue.textChannel.send("⛔ Voice channel is empty! Leaving the channel...");
+  queue.textChannel.send("⛔ Voice channel is empty! Leaving voice channel...");
   if (queue.currentMessage) {
     queue.currentMessage.delete().catch(console.error);
     queue.currentMessage = undefined;
@@ -88,10 +88,17 @@ client.distube.on("searchNoResult", (message, query) => {
   message.textChannel.send(`⛔ No result found for \`${query}\`!`);
 });
 client.distube.on("finish", (queue) => {
-  queue.textChannel.send("🏁 Queue finished!").then((message) => {
+  const embed = new EmbedBuilder();
+
+  if (queue.currentMessage) {
+    queue.currentMessage.delete().catch(console.error);
+    queue.currentMessage = undefined;
+  }
+  embed.setColor("Green").setDescription("🏁 Queue finished leaving voice channel..");
+  queue.textChannel.send({embeds: [embed] }).then((message) => {
     queue.currentMessage = message;
   });
-  queue.connection.disconnect();
+  // queue.connection.disconnect();
 });
 
 //giveaways
