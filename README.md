@@ -1,2 +1,1 @@
-# VizGuard_test
-repo to test vizguard
+# Discordbot using discordjs development
