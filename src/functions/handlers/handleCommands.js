@@ -24,8 +24,8 @@ module.exports = (client) => {
       }
     }
 
-    const clientId = "1194418694873419806";
-    //const guildId = "770447702860759050"; //dev server
+    const clientId = ""; //your client id goes here
+    //const guildId = ""; // for private development
     const rest = new REST({ version: "9" }).setToken(process.env.token);
     try {
       console.log(
